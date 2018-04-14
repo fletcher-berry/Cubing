@@ -9,8 +9,22 @@ using System.Windows.Forms;
 
 namespace Cubing.ConstructPosition
 {
+    /*
+     * This class is used so that a user can set up a position on a cube choosing what pieces are what colors.  If the colors of any piece can be determined
+     * from colors that are already placed, they will be placed automatically.  User can undo actions.  From a fully or partially colored cube, a corresponding
+     * ZBLL cube, ELLCP cube, 1LLL cube, OLLCP cube, or OLL cube can be generated with the same position.
+     * To define orientation of the pieces, user clicks on a sticker to color it yellow.
+     * To define permutation of the pieces, user clickes on a sticker, then uses the keyboard to choose a color for the sticker.
+     * Corner permutation must be defined before edge permuatation.
+     * 
+     * Currently only supports creating a ZBLL cube.
+     */
     public class SetupCube : OneLookLLCube
     {
+        // The corners and edges are stored as circular linked lists.  The idea is that if all but one color is known, it can be determined.
+        // The position of the unknown color can be arbitrary.
+        // The colors of the corners are in clockwise order.
+        // The colors of the edges are in a 2 element list.
         public CircularLinkedList<CubeColor> URFList;
         public CircularLinkedList<CubeColor> URBList;
         public CircularLinkedList<CubeColor> ULFList;
@@ -20,8 +34,11 @@ namespace Cubing.ConstructPosition
         public CircularLinkedList<CubeColor> UFList;
         public CircularLinkedList<CubeColor> UBList;
 
-        private List<CircularLinkedList<CubeColor>> _edges;
-        private List<CircularLinkedList<CubeColor>> _corners;
+
+
+        private List<CircularLinkedList<CubeColor>> _edges;     // list of all edges
+        private List<CircularLinkedList<CubeColor>> _corners;   // list of all corners
+
 
         private List<CubeColor> _leftCorners;
         // right corner values derived from left corner values.
@@ -42,9 +59,13 @@ namespace Cubing.ConstructPosition
 
         public ListNode<CubeColor> SelectedNode;
 
-        
+        public double SizeRatio { get; }
 
-        public SetupCube(double sizeRatio) : base(sizeRatio)
+        
+        /// <summary>
+        /// Creates a new instance of SetupCube in a solved state
+        /// </summary>
+        public SetupCube(double sizeRatio) : base()
         {
             URBList = new CircularLinkedList<CubeColor>(CubeColor.None, CubeColor.None, CubeColor.None);
             URFList = new CircularLinkedList<CubeColor>(CubeColor.None, CubeColor.None, CubeColor.None);
@@ -64,43 +85,17 @@ namespace Cubing.ConstructPosition
             UpdatePieces();
             State = SetupState.Orienatation;
 
+            SizeRatio = sizeRatio;
+
         }
 
-        public override void Paint(PaintEventArgs e)
+        public override void Paint(PaintEventArgs e, double sizeRatio)
         {
             UpdatePieces();
-
-            int z = 18;
-
-            e.Graphics.FillPolygon(Brushes.Black, Tools.ScalePointArray(new Point[] { new Point(148, 98), new Point(452, 98), new Point(452, 402), new Point(148, 402) }, SizeRatio));
-
-            e.Graphics.FillPolygon(Tools.GetBrush(ULB), Tools.ScalePointArray(new Point[] { new Point(152, 102), new Point(248, 102), new Point(248, 198), new Point(152, 198) }, SizeRatio));  // ULB
-            e.Graphics.FillPolygon(Tools.GetBrush(UB), Tools.ScalePointArray(new Point[] { new Point(252, 102), new Point(348, 102), new Point(348, 198), new Point(252, 198) }, SizeRatio));  // UB
-            e.Graphics.FillPolygon(Tools.GetBrush(URB), Tools.ScalePointArray(new Point[] { new Point(352, 102), new Point(448, 102), new Point(448, 198), new Point(352, 198) }, SizeRatio));  // URB
-            e.Graphics.FillPolygon(Tools.GetBrush(UL), Tools.ScalePointArray(new Point[] { new Point(152, 202), new Point(248, 202), new Point(248, 298), new Point(152, 298) }, SizeRatio));  // UL
-            e.Graphics.FillPolygon(Tools.GetBrush(Ucenter), Tools.ScalePointArray(new Point[] { new Point(252, 202), new Point(348, 202), new Point(348, 298), new Point(252, 298) }, SizeRatio));  // UCenter
-            e.Graphics.FillPolygon(Tools.GetBrush(UR), Tools.ScalePointArray(new Point[] { new Point(352, 202), new Point(448, 202), new Point(448, 298), new Point(352, 298) }, SizeRatio));  // UR
-            e.Graphics.FillPolygon(Tools.GetBrush(ULF), Tools.ScalePointArray(new Point[] { new Point(152, 302), new Point(248, 302), new Point(248, 398), new Point(152, 398) }, SizeRatio));  // ULF
-            e.Graphics.FillPolygon(Tools.GetBrush(UF), Tools.ScalePointArray(new Point[] { new Point(252, 302), new Point(348, 302), new Point(348, 398), new Point(252, 398) }, SizeRatio));  // UF
-            e.Graphics.FillPolygon(Tools.GetBrush(URF), Tools.ScalePointArray(new Point[] { new Point(352, 302), new Point(448, 302), new Point(448, 398), new Point(352, 398) }, SizeRatio));  // URF
-
-            e.Graphics.FillPolygon(Tools.GetBrush(BUL), Tools.ScalePointArray(new Point[] { new Point(152, 98), new Point(248, 98), new Point(248 - z, 98 - z), new Point(152 + z, 98 - z) }, SizeRatio));  // BUL
-            e.Graphics.FillPolygon(Tools.GetBrush(BU), Tools.ScalePointArray(new Point[] { new Point(252, 98), new Point(348, 98), new Point(348 - z, 98 - z), new Point(252 + z, 98 - z) }, SizeRatio));  // BU
-            e.Graphics.FillPolygon(Tools.GetBrush(BUR), Tools.ScalePointArray(new Point[] { new Point(352, 98), new Point(448, 98), new Point(448 - z, 98 - z), new Point(352 + z, 98 - z) }, SizeRatio));  // BUR
-
-            e.Graphics.FillPolygon(Tools.GetBrush(FUL), Tools.ScalePointArray(new Point[] { new Point(152, 402), new Point(248, 402), new Point(248 - z, 402 + z), new Point(152 + z, 402 + z) }, SizeRatio));  // FUL
-            e.Graphics.FillPolygon(Tools.GetBrush(FU), Tools.ScalePointArray(new Point[] { new Point(252, 402), new Point(348, 402), new Point(348 - z, 402 + z), new Point(252 + z, 402 + z) }, SizeRatio));  // FU
-            e.Graphics.FillPolygon(Tools.GetBrush(FUR), Tools.ScalePointArray(new Point[] { new Point(352, 402), new Point(448, 402), new Point(448 - z, 402 + z), new Point(352 + z, 402 + z) }, SizeRatio));  // FUR
-
-            e.Graphics.FillPolygon(Tools.GetBrush(LUB), Tools.ScalePointArray(new Point[] { new Point(148, 100), new Point(148, 200), new Point(148 - z, 200 - z), new Point(148 - z, 100 + z) }, SizeRatio));  // LUB
-            e.Graphics.FillPolygon(Tools.GetBrush(LU), Tools.ScalePointArray(new Point[] { new Point(148, 200), new Point(148, 300), new Point(148 - z, 300 - z), new Point(148 - z, 200 + z) }, SizeRatio));  // LU
-            e.Graphics.FillPolygon(Tools.GetBrush(LUF), Tools.ScalePointArray(new Point[] { new Point(148, 300), new Point(148, 400), new Point(148 - z, 400 - z), new Point(148 - z, 300 + z) }, SizeRatio));  // LUF
-
-            e.Graphics.FillPolygon(Tools.GetBrush(RUB), Tools.ScalePointArray(new Point[] { new Point(452, 100), new Point(452, 200), new Point(452 + z, 200 - z), new Point(452 + z, 100 + z) }, SizeRatio));  // RUB
-            e.Graphics.FillPolygon(Tools.GetBrush(RU), Tools.ScalePointArray(new Point[] { new Point(452, 200), new Point(452, 300), new Point(452 + z, 300 - z), new Point(452 + z, 200 + z) }, SizeRatio));  // RU
-            e.Graphics.FillPolygon(Tools.GetBrush(RUF), Tools.ScalePointArray(new Point[] { new Point(452, 300), new Point(452, 400), new Point(452 + z, 400 - z), new Point(452 + z, 300 + z) }, SizeRatio));  // RUF
+            Paint2D(e.Graphics, SizeRatio, 0, 0, 18);
         }
 
+        // During orientation phase, user clicks a sticker to color it yellow.  During permutation phase, user clicks a sticker to select it
         public void Click(MouseEventArgs e)
         {
             ListNode<CubeColor> node = GetClickedSticker(e.X, e.Y);
@@ -108,15 +103,16 @@ namespace Cubing.ConstructPosition
                 return;
             switch(State)
             {
-                case SetupState.Orienatation:
+                case SetupState.Orienatation:           // place yellow on clicked piece if possible
                     Action action = new Action();
                     if (node.Right.Right == node)    // edge piece
                     {
-                        if (node.Value == CubeColor.None && node.Right.Value == CubeColor.None)
+                        if (node.Value == CubeColor.None && node.Right.Value == CubeColor.None)     // make sure piece is not colored
                         {
                             node.Value = CubeColor.Yellow;
                             action.Pieces.Add(node);
                         }
+                        // if only one uncolored edge, its orientation can be determined.  An even number of edges must be correctly oriented
                         if (_edges.Count(edge => edge.Head.Value == CubeColor.None && edge.Head.Right.Value == CubeColor.None) == 1)
                         {
                             var unorientedEdge = _edges.First(edge => edge.Head.Value == CubeColor.None && edge.Head.Right.Value == CubeColor.None);
@@ -131,6 +127,7 @@ namespace Cubing.ConstructPosition
                                 unorientedEdge.Head.Value = CubeColor.Yellow;
                                 action.Pieces.Add(unorientedEdge.Head);
                             }
+                            // if all corners have been colored, orientation step is complete
                             if(_corners.Count(corner => corner.Head.Value == CubeColor.None && corner.Head.Right.Value == CubeColor.None && corner.Head.Left.Value == CubeColor.None) == 0)
                             {
                                 State = SetupState.CP;
@@ -139,17 +136,19 @@ namespace Cubing.ConstructPosition
                     }
                     else        // corner piece
                     {
-                        if (node.Value == CubeColor.None && node.Right.Value == CubeColor.None && node.Left.Value == CubeColor.None)
+                        if (node.Value == CubeColor.None && node.Right.Value == CubeColor.None && node.Left.Value == CubeColor.None)        // check to make sure corner has not veen colored
                         {
                             node.Value = CubeColor.Yellow;
                             action.Pieces.Add(node);
                         }
+                        // if all but 1 corner have been colored, the orientation of the last corner can be determined
                         if (_corners.Count(corner => corner.Head.Value == CubeColor.None && corner.Head.Right.Value == CubeColor.None && corner.Head.Left.Value == CubeColor.None) == 1)
                         {
                             var unorientedCorner = _corners.First(corner => corner.Head.Value == CubeColor.None && corner.Head.Right.Value == CubeColor.None && corner.Head.Left.Value == CubeColor.None);
                             int orientationNum = _corners.Count(corner => corner.Head.Right.Value == CubeColor.Yellow)
                                 - _corners.Count(corner => corner.Head.Left.Value == CubeColor.Yellow);
                             int num = orientationNum % 3;
+                            // for corner orientation the difference in the number of clockwise twisted corners and counter-clockwise twisted corners must be a multiple of 3
                             if((orientationNum + 3) % 3 == 0)
                             {
                                 unorientedCorner.Head.Value = CubeColor.Yellow;
@@ -165,6 +164,7 @@ namespace Cubing.ConstructPosition
                                 unorientedCorner.Head.Right.Value = CubeColor.Yellow;
                                 action.Pieces.Add(unorientedCorner.Head.Right);
                             }
+                            // if all edges have been colored, orientation step is complete
                             if (_edges.Count(edge => edge.Head.Value == CubeColor.None && edge.Head.Right.Value == CubeColor.None) == 0)
                             {
                                 State = SetupState.CP;
@@ -179,20 +179,21 @@ namespace Cubing.ConstructPosition
                 case SetupState.CP:
                     if (node.Right.Right == node)        // edge
                         break;
-                    if (node.Value != CubeColor.None)
+                    if (node.Value != CubeColor.None)   // piece already colored
                         break;
                     SelectedNode = node;
                     break;
                 case SetupState.EP:
-                    if (node.Right.Right != node)
+                    if (node.Right.Right != node)       // corner
                         break;
-                    if (node.Value != CubeColor.None)
+                    if (node.Value != CubeColor.None)   // pieca already colored
                         break;
                     SelectedNode = node;
                     break;
             }
         }
 
+        // during permutation phase, user uses keyboard to choose the color of the selected sticker
         public void KeyPress(KeyPressEventArgs e)
         {
             if (SelectedNode == null)
@@ -203,6 +204,7 @@ namespace Cubing.ConstructPosition
                 case SetupState.CP:
                     List<CubeColor> available = GetAvailableColors();
                     CubeColor color = GetCubeColorFromChar(e.KeyChar);
+                    // if selected color can be placed on the cubbe, place it
                     if(color != CubeColor.None && available.Contains(color))
                     {
                         SelectedNode.Value = color;
@@ -221,6 +223,7 @@ namespace Cubing.ConstructPosition
                         }
                         SelectedNode = null;
                     }
+                    // if 3 corners have been colored, the other can be colored automatically, then corner permutation is complete
                     if(_corners.Count(corner => corner.Head.Value == CubeColor.None || corner.Head.Left.Value == CubeColor.None) == 1)
                     {
                         var list = _corners.First(corner => corner.Head.Value == CubeColor.None || corner.Head.Left.Value == CubeColor.None);
@@ -241,18 +244,22 @@ namespace Cubing.ConstructPosition
                 case SetupState.EP:
                     List<CubeColor> availableEdges = GetAvailableColors();
                     CubeColor edgeColor = GetCubeColorFromChar(e.KeyChar);
-                    SelectedNode.Value = edgeColor;
-                    action.Pieces.Add(SelectedNode);
-                    _edgeColors.Remove(edgeColor);
+                    if (edgeColor != CubeColor.None && availableEdges.Contains(edgeColor))
+                    {
+                        SelectedNode.Value = edgeColor;
+                        action.Pieces.Add(SelectedNode);
+                        _edgeColors.Remove(edgeColor);
+                    }
+                    // if 2 edges are colored, the other 2 can be determined because there must be an even number of piece swaps on the cube
                     if (_edges.Count(edge => edge.Head.Value == CubeColor.None || edge.Head.Right.Value == CubeColor.None) == 2)
                     {
-                        bool cornerParity = isParity(RecognitionTools.CompareColors(GetYellowNode(ULFList).Right.Value, CubeColor.Red),
+                        bool cornerParity = IsParity(RecognitionTools.CompareColors(GetYellowNode(ULFList).Right.Value, CubeColor.Red),
                             RecognitionTools.CompareColors(GetYellowNode(URFList).Right.Value, CubeColor.Green),
                             RecognitionTools.CompareColors(GetYellowNode(URBList).Right.Value, CubeColor.Orange));
                         var uncoloredEdges = _edges.Where(edge => edge.Head.Value == CubeColor.None || edge.Head.Right.Value == CubeColor.None).ToArray();
                         GetYellowNode(uncoloredEdges[0]).Right.Value = _edgeColors[0];
                         GetYellowNode(uncoloredEdges[1]).Right.Value = _edgeColors[1];
-                        bool edgeParity = isParity(RecognitionTools.CompareColors(GetYellowNode(UFList).Right.Value, CubeColor.Red),
+                        bool edgeParity = IsParity(RecognitionTools.CompareColors(GetYellowNode(UFList).Right.Value, CubeColor.Red),
                             RecognitionTools.CompareColors(GetYellowNode(URList).Right.Value, CubeColor.Green),
                             RecognitionTools.CompareColors(GetYellowNode(UBList).Right.Value, CubeColor.Orange));
                         if(cornerParity != edgeParity)
@@ -276,6 +283,7 @@ namespace Cubing.ConstructPosition
 
         }
 
+        // undo an action
         public void Undo()
         {
             if (_actions.Count == 0)
@@ -308,6 +316,7 @@ namespace Cubing.ConstructPosition
             }
         }
 
+        // Get a list of colors that the selected node can take
         public List<CubeColor> GetAvailableColors()
         {
             if (SelectedNode == null || SelectedNode.Value != CubeColor.None)
@@ -339,6 +348,12 @@ namespace Cubing.ConstructPosition
             }
         }
 
+        /// <summary>
+        /// Determines the node that was clicked based on the location of the click
+        /// </summary>
+        /// <param name="xCoord">The x coordinate of the location of the click</param>
+        /// <param name="yCoord">The y coordinate of the location of the click</param>
+        /// <returns></returns>
         public ListNode<CubeColor> GetClickedSticker(int xCoord, int yCoord)
         {
             int z = 20;
@@ -346,7 +361,6 @@ namespace Cubing.ConstructPosition
             Point p = Tools.ScalePoint(new Point(xCoord, yCoord), 1 / SizeRatio);
             int x = p.X;
             int y = (int)(p.Y + (50 / SizeRatio) + 50);
-            //MessageBox.Show(x + "  " + y);
             if (x > 150 - z && x < 150)
             {
                 if (y > 100 && y < 200)
@@ -405,6 +419,11 @@ namespace Cubing.ConstructPosition
             return null;
         }
 
+        /// <summary>
+        /// From a character pressed on the keyboard, determine the corresponding cube color
+        /// </summary>
+        /// <param name="c">A charcter presses on the keyboard</param>
+        /// <returns></returns>
         public CubeColor GetCubeColorFromChar(char c)
         {
             if (c == 'o' || c == 'O')
@@ -418,6 +437,7 @@ namespace Cubing.ConstructPosition
             return CubeColor.None;
         }
 
+        // Find the yellow node of a circular linked list representing a cubie
         public ListNode<CubeColor> GetYellowNode(CircularLinkedList<CubeColor> list)
         {
             ListNode<CubeColor> node = list.Head;
@@ -431,7 +451,12 @@ namespace Cubing.ConstructPosition
             throw new InvalidOperationException("piece does not have yellow");
         }
 
-        public static bool isParity(ColorCompare c1, ColorCompare c2, ColorCompare c3)
+        /// <summary>
+        /// From 3 consecutive side colors, in counter-clockwise order, assuming white is on bottom, determine if there is an odd number of swaps.
+        /// A normal color scheme is Red Green Orange Blue.  Works cor corners or edges.
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsParity(ColorCompare c1, ColorCompare c2, ColorCompare c3)
         {
             bool cornerParity;
             Dictionary<ColorCompare, int> colors = new Dictionary<ColorCompare, int>()
@@ -506,7 +531,9 @@ namespace Cubing.ConstructPosition
             return (URF == CubeColor.Yellow && ULF == CubeColor.Yellow && URB == CubeColor.Yellow && ULB == CubeColor.Yellow);
         }
 
-
+        /// <summary>
+        /// Set the colors of the encapsulated OneLookLL cube based on the circular linked list representation
+        /// </summary>
         public void UpdatePieces()
         {
             URF = URFList.Head.Value;

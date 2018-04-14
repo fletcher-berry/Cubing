@@ -6,14 +6,28 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Represents a rubik's cube algorithm
+    /// </summary>
     public class Algorithm
     {
-        public List<Move> Moves;
-        private const int MaxMoves = 25;
 
+        public List<Move> Moves;
+
+        /// <summary>
+        /// The maximum numbr of moves in an algorithm
+        /// </summary>
+        public const int MaxMoves = 25;
+
+        /// <summary>
+        /// Creates an algorithm from a string representation in rubik's cube notation
+        /// </summary>
+        /// <param name="str">A string representation if the algorithm in rubik's cube notation</param>
+        /// <exception cref="OverflowException">Thrown if the algorithm has too many moves</exception>
         public Algorithm(string str)
         {
             str = str.Replace('’', '\'');
+            str = str.Trim();
             if(str.Equals(string.Empty))
             {
                 Moves = new List<Move>();
@@ -29,6 +43,11 @@ namespace Cubing
             }
         }
 
+        /// <summary>
+        /// Creates an Algorithm from the bytes of a .alg file
+        /// </summary>
+        /// <param name="moves">an array of 32 bytes from a .alg file</param>
+        /// <exception cref="ArgumentException">Thrown if the number of bytes is not 32</exception>
         public Algorithm(byte[] moves)
         {
             if (moves.Length != 32)
@@ -59,6 +78,10 @@ namespace Cubing
 
         }
 
+        /// <summary>
+        /// Converts an algorithm to a rubik's cube notation string
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             string str = String.Empty;
@@ -70,6 +93,12 @@ namespace Cubing
             return str;
         }
 
+        /// <summary>
+        /// Converts an algorithm to a byte array to save to a .alg file
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="OverflowException">Thrown if there are too many moves in the algorithm</exception>
+        /// <exception cref="ArgumentException">Thrown if there are too many parentheses in the algorithm</exception>
         public byte[] ToByteArray()
         {
             if (Moves.Count > MaxMoves)

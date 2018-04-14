@@ -18,6 +18,8 @@ namespace ZbllDemo
         private DateTime _spacePressed;
         private const int _MillisBetweenSpaces = 400;
 
+        const double CubeSize = .9;
+
 
         public RunnerScreen(AlgRunner runner)
         {
@@ -99,7 +101,7 @@ namespace ZbllDemo
 
         private void CubePicture_Paint(object sender, PaintEventArgs e)
         {
-            Runner.GetCube().Paint(e);
+            Runner.GetCube().Paint(e, CubeSize);
         }
 
         private void RunnerScreen_FormClosed(object sender, FormClosedEventArgs e)

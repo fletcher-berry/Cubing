@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Generated a fixed number of random case numbers without consecutive duplicates
+    /// </summary>
     public class RandomFixedGenerator : IAlgNumberGenerator
     {
         private List<int> _algs;
@@ -34,13 +37,13 @@ namespace Cubing
             if (next >= _lastAlg)
                 next++;
             _lastAlg = next;
-            return next;
+            return _algs[next];
 
         }
 
         public int GetNumAlgs()
         {
-            return _algs.Count;
+            return _numAlgs;
         }
     }
 }

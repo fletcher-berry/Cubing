@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Generates a fixed sequence of case numbers
+    /// </summary>
     public class SequentialGenerator : IAlgNumberGenerator
     {
         private List<int> _algs;

@@ -6,13 +6,22 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Represents a cube for ZBLL positions
+    /// </summary>
     public class ZbllCube : FullCube 
     {
-        public ZbllCube(double ratio)
+        /// <summary>
+        /// Creates a new ZBLL cube
+        /// </summary>
+        public ZbllCube()
         {
-            SizeRatio = ratio;
         }
 
+        /// <summary>
+        /// Sets up a ZBLL case on this cube
+        /// </summary>
+        /// <param name="num"></param>
         public override void SetUpPosition(int num)
         {
             Solve();
@@ -42,10 +51,10 @@ namespace Cubing
 
        
 
-        /* Set up the corner orientation based on the orientation number which will
-         * be the position number / 72
-         * @param num the orientation number
-         */
+        /// <summary>
+        /// Set up corner orientation
+        /// </summary>
+        /// <param name="num">The corner orientation number (0 - 6)</param>
         public void SetUpCornerOrientation(int num)
         {
             if (num == 0)
@@ -64,6 +73,10 @@ namespace Cubing
                 HOrientation();
         }
 
+        /// <summary>
+        /// Get the number of possible ZBLL positions on this cube
+        /// </summary>
+        /// <returns></returns>
         public override int GetNumPositions()
         {
             return 480;

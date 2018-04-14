@@ -12,15 +12,25 @@ using System.Windows.Forms;
 
 namespace Cubing.ConstructPosition
 {
+    /// <summary>
+    /// Provides a user interface to construct a position on a rubik's cube
+    /// </summary>
     public partial class SetupForm : Form
     {
         public SetupCube Cube;
 
         const double SizeRatio = .8;
 
-        SetUpPositionParent Parent;
+        /// <summary>
+        /// The form which created an instance of this form
+        /// </summary>
+        ISetUpPositionParent Parent;
 
-        public SetupForm(SetUpPositionParent screen)
+        /// <summary>
+        /// Creates a new instance of SetupFrom
+        /// </summary>
+        /// <param name="screen">The form which created an instance of this form</param>
+        public SetupForm(ISetUpPositionParent screen)
         {
             InitializeComponent();
             Cube = new SetupCube(SizeRatio);
@@ -43,9 +53,10 @@ namespace Cubing.ConstructPosition
 
         private void CubeBox_Paint(object sender, PaintEventArgs e)
         {
-            Cube.Paint(e);
+            Cube.Paint(e, SizeRatio);
         }
 
+        // gives a description of how to interact with the cube given its state
         public static string GetInfoString(SetupState state)
         {
             switch(state)
@@ -127,6 +138,7 @@ namespace Cubing.ConstructPosition
             this.Close();
         }
 
+        // Sets up the constructed ZBLL position on the parent form
         private void SetUpZbllButton_Click(object sender, EventArgs e)
         {
             if(!Cube.IsZbll())
@@ -135,9 +147,10 @@ namespace Cubing.ConstructPosition
                 return;
             }
             int posNum = Cube.GetPosNum();
-            //MessageBox.Show(posNum.ToString());
             Parent.PosNumReceived(AlgSet.ZBLL, posNum);
             this.Close();
         }
+
+        // still need to implement the buttons for the other algorithm sets
     }
 }

@@ -27,37 +27,37 @@ namespace Cubing
         public List<Subset> GetSubsets()
         {
             List<Subset> subsets = new List<Subset>();
-            StreamReader reader = new StreamReader(Name);
-            string line;
-            while((line = reader.ReadLine()) != null)
+            using (StreamReader reader = new StreamReader(Name))
             {
-                if (string.IsNullOrWhiteSpace(line))
-                    continue;
-                int spaceIdx = line.IndexOf(' ');
-                string setName = line.Substring(0, spaceIdx);
-                string setList = line.Substring(spaceIdx + 1);
-                subsets.Add(new Subset() { Name = setName, SubsetList = setList });
+                string line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    if (string.IsNullOrWhiteSpace(line))
+                        continue;
+                    int spaceIdx = line.IndexOf(' ');
+                    string setName = line.Substring(0, spaceIdx);
+                    string setList = line.Substring(spaceIdx + 1);
+                    subsets.Add(new Subset() { Name = setName, SubsetList = setList });
+                }
             }
-            reader.Close();
             return subsets;
         }
 
         public void SaveSubsets(List<Subset> subsets)
         {
-            StreamWriter writer = new StreamWriter(Name, false);
-
             // this will throw an exception if a subset is not valid
             foreach (var set in subsets)
             {
                 MakeList(set.SubsetList, int.MaxValue);
             }
-
-            foreach(var set in subsets)
+            using (StreamWriter writer = new StreamWriter(Name, false))
             {
-                writer.Write(set.Name + " ");
-                writer.WriteLine(set.SubsetList);
+                foreach (var set in subsets)
+                {
+                    writer.Write(set.Name + " ");
+                    writer.WriteLine(set.SubsetList);
+                }
             }
-            writer.Close();
         }
 
         // makes list from set of ranges or set names

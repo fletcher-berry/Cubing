@@ -6,15 +6,29 @@ using System.Threading.Tasks;
 
 namespace Cubing.ConstructPosition
 {
+    /// <summary>
+    /// Represents a generic circular linked list
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class CircularLinkedList<T>
     {
+        /// <summary>
+        /// Getss or sets the head of this list
+        /// </summary>
         public ListNode<T> Head;
 
+        /// <summary>
+        /// Creates an empty circular linked list
+        /// </summary>
         public CircularLinkedList()
         {
             Head = null;
         }
 
+        /// <summary>
+        /// Creates a circular linked list and populates it with the given values
+        /// </summary>
+        /// <param name="values">The initial values of the list in order</param>
         public CircularLinkedList(params T[] values)
         {
             if(values == null || values.Length == 0)

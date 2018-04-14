@@ -43,12 +43,14 @@
             this.AddSubsetButton = new System.Windows.Forms.Button();
             this.ViewSubsetsButton = new System.Windows.Forms.Button();
             this.ConstructPostionButton = new System.Windows.Forms.Button();
+            this.RunFixedButton = new System.Windows.Forms.Button();
+            this.RunFixedBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.SampleCubeView)).BeginInit();
             this.SuspendLayout();
             // 
             // SampleCubeView
             // 
-            this.SampleCubeView.Location = new System.Drawing.Point(147, 29);
+            this.SampleCubeView.Location = new System.Drawing.Point(142, 10);
             this.SampleCubeView.Name = "SampleCubeView";
             this.SampleCubeView.Size = new System.Drawing.Size(421, 389);
             this.SampleCubeView.TabIndex = 0;
@@ -98,7 +100,7 @@
             // RangeBox
             // 
             this.RangeBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RangeBox.Location = new System.Drawing.Point(387, 527);
+            this.RangeBox.Location = new System.Drawing.Point(387, 523);
             this.RangeBox.Name = "RangeBox";
             this.RangeBox.Size = new System.Drawing.Size(332, 36);
             this.RangeBox.TabIndex = 5;
@@ -106,7 +108,7 @@
             // RunRandomButton
             // 
             this.RunRandomButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RunRandomButton.Location = new System.Drawing.Point(387, 586);
+            this.RunRandomButton.Location = new System.Drawing.Point(387, 569);
             this.RunRandomButton.Name = "RunRandomButton";
             this.RunRandomButton.Size = new System.Drawing.Size(332, 53);
             this.RunRandomButton.TabIndex = 6;
@@ -118,7 +120,7 @@
             // SingleCycleButton
             // 
             this.SingleCycleButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SingleCycleButton.Location = new System.Drawing.Point(387, 657);
+            this.SingleCycleButton.Location = new System.Drawing.Point(387, 628);
             this.SingleCycleButton.Name = "SingleCycleButton";
             this.SingleCycleButton.Size = new System.Drawing.Size(332, 54);
             this.SingleCycleButton.TabIndex = 7;
@@ -204,11 +206,33 @@
             this.ConstructPostionButton.UseVisualStyleBackColor = true;
             this.ConstructPostionButton.Click += new System.EventHandler(this.ConstructPostionButton_Click);
             // 
+            // RunFixedButton
+            // 
+            this.RunFixedButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RunFixedButton.Location = new System.Drawing.Point(387, 688);
+            this.RunFixedButton.Name = "RunFixedButton";
+            this.RunFixedButton.Size = new System.Drawing.Size(251, 53);
+            this.RunFixedButton.TabIndex = 15;
+            this.RunFixedButton.TabStop = false;
+            this.RunFixedButton.Text = "Run Fixed";
+            this.RunFixedButton.UseVisualStyleBackColor = true;
+            this.RunFixedButton.Click += new System.EventHandler(this.RunFixedButton_Click);
+            // 
+            // RunFixedBox
+            // 
+            this.RunFixedBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RunFixedBox.Location = new System.Drawing.Point(644, 692);
+            this.RunFixedBox.Name = "RunFixedBox";
+            this.RunFixedBox.Size = new System.Drawing.Size(75, 45);
+            this.RunFixedBox.TabIndex = 16;
+            // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 753);
+            this.Controls.Add(this.RunFixedBox);
+            this.Controls.Add(this.RunFixedButton);
             this.Controls.Add(this.ConstructPostionButton);
             this.Controls.Add(this.ViewSubsetsButton);
             this.Controls.Add(this.AddSubsetButton);
@@ -251,6 +275,8 @@
         private System.Windows.Forms.Button AddSubsetButton;
         private System.Windows.Forms.Button ViewSubsetsButton;
         private System.Windows.Forms.Button ConstructPostionButton;
+        private System.Windows.Forms.Button RunFixedButton;
+        private System.Windows.Forms.TextBox RunFixedBox;
     }
 }
 

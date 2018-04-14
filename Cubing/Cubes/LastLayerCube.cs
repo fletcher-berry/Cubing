@@ -8,29 +8,30 @@ using System.Windows.Forms;
 
 namespace Cubing
 {
-    public abstract class LastLayerCube : AbstractCube
+    /// <summary>
+    /// Represents a 3x3 cube with an algorithm set for the last layer
+    /// </summary>
+    public abstract class LastLayerCube : AbstractCube3x3
     {
-        private double sizeRatio;
-
+        
         public LastLayerCube()
         {
             Solve();
-            sizeRatio = 1;
         }
 
-        public LastLayerCube(int sizeRatio)
-        {
-            this.sizeRatio = sizeRatio;
-        }
-
-
-
-        public override void Paint(PaintEventArgs e)
+        /// <summary>
+        /// Paints a 3D representation of this cube
+        /// </summary>
+        /// <param name="e">PaintEventArgs used to paint the cube</param>
+        /// <param name="sizeRatio">The relative size to paint the cube</param>
+        public override void Paint(PaintEventArgs e, double sizeRatio)
         {
             Paint3D(e.Graphics, sizeRatio, 0, 0);
         }
 
-
+        /// <summary>
+        /// Rotates the top face clockwise
+        /// </summary>
         public void U()
         {
             CubeColor temp1 = URF;
@@ -60,6 +61,9 @@ namespace Cubing
             FU = temp5;
         }
 
+        /// <summary>
+        /// Rotates the top face counter-clockwise
+        /// </summary>
         public void Ui()
         {
             U();
@@ -67,15 +71,32 @@ namespace Cubing
             U();
         }
 
+        /// <summary>
+        /// Rotates the top face 180 degrees
+        /// </summary>
         public void U2()
         {
             U();
             U();
         }
 
-        
+        /// <summary>
+        /// Execute a random U move
+        /// </summary>
+        public void RandomUMove()
+        {
+            Random rand = new Random();
+            int num = rand.Next(4);
+            while (num > 0)
+            {
+                U();
+                num--;
+            }
+        }
 
-        
+
+
+        // *** Corner Orientation ***
 
         /* set up a T orientation on the cube */
         public void TOrientation()
@@ -143,6 +164,10 @@ namespace Cubing
             U2();
         }
 
+
+
+        // *** Edge Orientation ***
+
         /* Flip the back edge */
         private void FlipB()
         {
@@ -209,6 +234,9 @@ namespace Cubing
             FlipLF();
         }
 
+
+        // *** Corner Permutation
+
         /* swap the right 2 corners */
         public void RightSwap()
         {
@@ -246,17 +274,9 @@ namespace Cubing
             BackSwap();
         }
 
-        /* execute a random move with the U face */
-        public void RandomUMove()
-        {
-            Random rand = new Random();
-            int num = rand.Next(4);
-            while (num > 0)
-            {
-                U();
-                num--;
-            }
-        }
+        
+
+        // *** PLL algorithms ***
 
         /* execute a Ua permutation */
         public void UaPerm()
@@ -457,104 +477,110 @@ namespace Cubing
         }
 
 
-
-        //public abstract void SetUpPosition(int posNum);
-
-        //public abstract int GetPosNum();
-
+        /// <summary>
+        /// Solve the cube
+        /// </summary>
         public abstract void Solve();
 
-        public bool LastLayerMatch(LastLayerCube other)
-        {
-            ColorCompare? curr = null;
-            Tuple<bool, ColorCompare?> value = RecognitionTools.IsMatch(this.URF, other.URF, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.URF, other.URF, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.FUR, other.FUR, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.RUF, other.RUF, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.ULF, other.ULF, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.LUF, other.LUF, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.FUL, other.FUL, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.URB, other.URB, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.RUB, other.RUB, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.BUR, other.BUR, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.ULB, other.ULB, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.LUB, other.LUB, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.BUL, other.BUL, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.UF, other.UF, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.FU, other.FU, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.UL, other.UL, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.LU, other.LU, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.UB, other.UB, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.BU, other.BU, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.UR, other.UR, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            value = RecognitionTools.IsMatch(this.RU, other.RU, curr);
-            if (value.Item1 == false)
-                return false;
-            curr = value.Item2;
-            return true;
+        // Don't think I use this
+        //public bool LastLayerMatch(LastLayerCube other)
+        //{
+        //    ColorCompare? curr = null;
+        //    Tuple<bool, ColorCompare?> value = RecognitionTools.IsMatch(this.URF, other.URF, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.URF, other.URF, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.FUR, other.FUR, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.RUF, other.RUF, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.ULF, other.ULF, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.LUF, other.LUF, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.FUL, other.FUL, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.URB, other.URB, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.RUB, other.RUB, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.BUR, other.BUR, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.ULB, other.ULB, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.LUB, other.LUB, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.BUL, other.BUL, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.UF, other.UF, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.FU, other.FU, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.UL, other.UL, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.LU, other.LU, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.UB, other.UB, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.BU, other.BU, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.UR, other.UR, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    value = RecognitionTools.IsMatch(this.RU, other.RU, curr);
+        //    if (value.Item1 == false)
+        //        return false;
+        //    curr = value.Item2;
+        //    return true;
 
-        }
+        //}
 
+
+
+        //  *** Used to retrieve position number from position that has already been set up
+
+        /// <summary>
+        /// Orient all pieces on the last layer
+        /// </summary>
         public void Orient()
         {
             if(RUF == CubeColor.Yellow)
@@ -628,10 +654,18 @@ namespace Cubing
         }
 
 
-        //public bool Equals(LastLayerCube other)
-        //{
-
-        //}
+        /// <summary>
+        /// Gets the corner orientation number of the position on this cube
+        /// 0 - T
+        /// 1 - U
+        /// 2 - L
+        /// 3 - Sune
+        /// 4 - Antisune
+        /// 5 - Pi
+        /// 6 - H
+        /// 7 - Corners oriented
+        /// </summary>
+        /// <returns></returns>
         public int GetCornerOrientationNum()
         {
             int numOriented = 0;
@@ -674,9 +708,13 @@ namespace Cubing
             }
             else
                 return 7;
-
         }
 
+
+        /// <summary>
+        /// Gets the edge orientation number of the position on this cube
+        /// </summary>
+        /// <returns></returns>
         public int GetEdgeOrientationNum()
         {
             if (RU == CubeColor.Yellow && BU == CubeColor.Yellow && LU != CubeColor.Yellow)
@@ -697,9 +735,6 @@ namespace Cubing
                 return 7;
             return -1;
         }
-
-        
-
 
     }
 }

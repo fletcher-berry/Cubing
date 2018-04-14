@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
-
+    /// <summary>
+    /// Generates case numbers randomly
+    /// </summary>
     public class RandomAlgGenerator : IAlgNumberGenerator
     {
         List<int> Algs;
         Random Rand;
+
 
         public RandomAlgGenerator(List<int> algs)
         {
@@ -24,6 +27,7 @@ namespace Cubing
             return Algs[index];
         }
 
+        // irrelevant because the sequence does not end
         int IAlgNumberGenerator.GetNumAlgs()
         {
             return Algs.Count;

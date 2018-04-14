@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cubing.ConstructPosition
 {
+    /// <summary>
+    /// Constants for the phases of setting up a SetupCube
+    /// </summary>
     public enum SetupState
     {
         Orienatation, CP, EP, Compeleted

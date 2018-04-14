@@ -6,18 +6,32 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Represents a Cube for ELLCP positions (all corners oriented)
+    /// </summary>
     public class EllcpCube : FullCube
     {
-        public EllcpCube(double ratio)
+        /// <summary>
+        /// Creates a new ELLCP cube
+        /// </summary>
+        public EllcpCube()
         {
-            SizeRatio = ratio;
+            
         }
 
+        /// <summary>
+        /// Gets the number of possible ELLCP positions on this cube
+        /// </summary>
+        /// <returns></returns>
         public override int GetNumPositions()
         {
             return 134;
         }
 
+        /// <summary>
+        /// Sets up an ELLCP case on this cube
+        /// </summary>
+        /// <param name="posNum">The position number to set up</param>
         public override void SetUpPosition(int posNum)
         {
             Solve();

@@ -7,19 +7,33 @@ using System.Windows.Forms;
 
 namespace Cubing
 {
-    public class VlsCube : AbstractCube
+    /// <summary>
+    /// Represents a cube for VLS positions
+    /// R U' R' and R U R' inserts are supported along with their mirrors
+    /// </summary>
+    public class VlsCube : AbstractCube3x3
     {
-        public VlsCube(double ratio)
+        /// <summary>
+        /// Creates a new VLS cube
+        /// </summary>
+        public VlsCube()
         {
-            SizeRatio = ratio;
             SetUpPosition(0);
         }
 
+        /// <summary>
+        /// Get the number of possible VLS positions on this cube
+        /// </summary>
+        /// <returns></returns>
         public override int GetNumPositions()
         {
             return 864;
         }
 
+        /// <summary>
+        /// Sets up a VLS case on this cube
+        /// </summary>
+        /// <param name="posNum">The number of  the position to set up</param>
         public override void SetUpPosition(int posNum)
         {
             bool split = posNum >= 432;
@@ -35,6 +49,9 @@ namespace Cubing
                 Reflect();
         }
 
+        /// <summary>
+        /// Set up an R U' R' insert by taking out the F2L pair
+        /// </summary>
         public void SetupTogether()
         {
             ULB = URB = URF = UL = UB = UR = Ucenter = CubeColor.Yellow;
@@ -44,6 +61,9 @@ namespace Cubing
             LUF = CubeColor.White;
         }
 
+        /// <summary>
+        /// Set up an R U R' insert by taking out the F2L pair
+        /// </summary>
         public void SetupSplit()
         {
             URB = ULB = ULF = UR = UF = UL = Ucenter = CubeColor.Yellow;
@@ -53,6 +73,11 @@ namespace Cubing
             RUF = CubeColor.White;
         }
 
+        /// <summary>
+        /// Set up the corner orientation of a VLS case
+        /// </summary>
+        /// <param name="num">The number of the corner orientation case (0 - 26)</param>
+        /// <param name="split">Whether the F2L pair is split</param>
         public void SetupCornerOrientation(int num, bool split)
         {
             if(!split)
@@ -88,6 +113,11 @@ namespace Cubing
             }
         }
 
+        /// <summary>
+        /// Set up the edge orientation of a VLS case
+        /// </summary>
+        /// <param name="num">The edge orientation number of the position to set up (0 - 7)</param>
+        /// <param name="split">Whhether the F2L pair is split</param>
         public void SetupEdgeOrientation(int num, bool split)
         {
             if (!split)
@@ -164,6 +194,9 @@ namespace Cubing
             }
         }
 
+        /// <summary>
+        /// Rotate the top face clockwise
+        /// </summary>
         public void U()
         {
             CubeColor temp1 = URF;
@@ -193,6 +226,9 @@ namespace Cubing
             FU = temp5;
         }
 
+        /// <summary>
+        /// Rotate the top face counter-clockwise
+        /// </summary>
         public void Ui()
         {
             U();
@@ -200,6 +236,9 @@ namespace Cubing
             U();
         }
 
+        /// <summary>
+        /// Rotate the top face 180 degrees
+        /// </summary>
         protected void U2()
         {
             U();
@@ -222,7 +261,6 @@ namespace Cubing
             FUR = temp;
         }
 
-        /* Flip the back edge */
         private void FlipB()
         {
             CubeColor temp = BU;
@@ -251,6 +289,9 @@ namespace Cubing
             U2(); 
         }
 
+        /// <summary>
+        /// Reflect a position to solve left pair
+        /// </summary>
         public void Reflect()
         {
             var temp = ULF;
@@ -279,9 +320,14 @@ namespace Cubing
             BUR = temp;
         }
 
-        public override void Paint(PaintEventArgs e)
+        /// <summary>
+        /// Paints a 2D representation of this cube
+        /// </summary>
+        /// <param name="e">EventArgs used to paint the cube</param>
+        /// <param name="sizeRatio">The relative size to paint the cube</param>
+        public override void Paint(PaintEventArgs e, double sizeRatio)
         {
-            Paint2D(e.Graphics, SizeRatio, 0, 0, 15);
+            Paint2D(e.Graphics, sizeRatio, 0, 0, 15);
         }
     }
 }

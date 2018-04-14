@@ -6,18 +6,31 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Represents a cube for all last layer positions
+    /// </summary>
     public class OneLookLLCube : FullCube
     {
-        public OneLookLLCube(double ratio)
+        /// <summary>
+        /// Creates a new one look last layer cube in a solved state
+        /// </summary>
+        public OneLookLLCube()
         {
-            SizeRatio = ratio;
         }
 
+        /// <summary>
+        /// Gets the number of possible 1LLL positions on this cube
+        /// </summary>
+        /// <returns></returns>
         public override int GetNumPositions()
         {
             return 3910;
         }
 
+        /// <summary>
+        /// Sets up a 1LLL case on this cube
+        /// </summary>
+        /// <param name="posNum"></param>
         public override void SetUpPosition(int posNum)
         {
             Solve();
@@ -238,6 +251,10 @@ namespace Cubing
 
         }
 
+        /// <summary>
+        /// Sets up an edge orientation where exactly 2 edges are flipped
+        /// </summary>
+        /// <param name="num">The edge orientation number</param>
         public void SetUpEdgeOrientation(int num)
         {
             if (num == 0)
@@ -254,6 +271,10 @@ namespace Cubing
                 FlipRL();
         }
 
+        /// <summary>
+        /// Sets up a corner orientation on this cube
+        /// </summary>
+        /// <param name="num">The edge orientation number</param>
         public void SetUpCornerOrientation(int num)
         {
             if (num == 0)
@@ -272,7 +293,10 @@ namespace Cubing
                 HOrientation();
         }
 
-
+        /// <summary>
+        /// Gets the PLL number of a PLL position
+        /// </summary>
+        /// <returns></returns>
         public int GetPllNum()
         {
             try
@@ -319,6 +343,10 @@ namespace Cubing
             }
         }
 
+        /// <summary>
+        /// Gets the number of the current position on this cube
+        /// </summary>
+        /// <returns></returns>
         public int GetPosNum()
         {
             int auf = AufToDefault();
@@ -424,8 +452,10 @@ namespace Cubing
             return 0;
         }
 
-        // returns number of U moves
-        // works for all cases except H case and cornerrs oriented cases.
+        /// <summary>
+        /// AUFs to default angle for the OLL on this cube
+        /// </summary>
+        /// <returns>The number of U moves made</returns>
         public int AufToDefault()
         {
             int coNum = GetCornerOrientationNum();
@@ -558,9 +588,17 @@ namespace Cubing
 
                 }
             }
+            else    // ellcp
+            {
+
+            }
             return numAufs;
         }
 
+        /// <summary>
+        /// Gets the number of the PLL on this cube if there is an adjacent corner swap, idnoring location of the swap
+        /// </summary>
+        /// <returns></returns>
         public int GetAdjSwapNum()
         {
             ColorCompare left = RecognitionTools.CompareColors(LUB, LU);
@@ -596,7 +634,10 @@ namespace Cubing
             return 11;
         }
 
-
+        /// <summary>
+        /// Gets the numbr of a PLL position if there is a diagonal corner swap
+        /// </summary>
+        /// <returns></returns>
         public int GetDiagSwapNum()
         {
             ColorCompare front = RecognitionTools.CompareColors(FUL, FU);
@@ -632,7 +673,10 @@ namespace Cubing
             return 54;
         }
 
-
+        /// <summary>
+        /// Gets the number of the PLL position on this cube if there is no corner swap
+        /// </summary>
+        /// <returns></returns>
         public int GetEpllNum()
         {
             ColorCompare front = RecognitionTools.CompareColors(FUR, FU);

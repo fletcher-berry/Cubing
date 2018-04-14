@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Generates each provided case number once in a random order
+    /// </summary>
     public class SingleCycleGenerator : IAlgNumberGenerator
     {
         List<int> Algs;

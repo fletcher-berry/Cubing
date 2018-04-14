@@ -46,7 +46,7 @@
     <Compile Include="AlgNumberGenerators\SequentialGenerator.cs" />
     <Compile Include="AlgClients\AlgsFromFileStored.cs" />
     <Compile Include="AlgSet.cs" />
-    <Compile Include="Cubes\AbstractCube.cs" />
+    <Compile Include="Cubes\AbstractCube3x3.cs" />
     <Compile Include="AlgFiles\AlgFile.cs" />
     <Compile Include="AlgFiles\Algorithm.cs" />
     <Compile Include="AlgFiles\AlgUtilities.cs" />
@@ -70,9 +70,7 @@
     <Compile Include="setup position\Action.cs" />
     <Compile Include="setup position\ActionType.cs" />
     <Compile Include="setup position\CircularLinkedList.cs" />
-    <Compile Include="setup position\SetUpPositionParent.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="setup position\SetUpPositionParent.cs" />
     <Compile Include="setup position\ListNode.cs" />
     <Compile Include="setup position\SetupCube.cs" />
     <Compile Include="setup position\SetupForm.cs">
@@ -84,7 +82,6 @@
     <Compile Include="setup position\SetupState.cs" />
     <Compile Include="Tools.cs" />
     <Compile Include="Cubes\VlsCube.cs" />
-    <Compile Include="AlgClients\ZbllAlgsInCode.cs" />
     <Compile Include="Cubes\ZbllCube.cs" />
   </ItemGroup>
   <ItemGroup />

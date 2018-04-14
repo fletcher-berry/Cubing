@@ -19,8 +19,14 @@ namespace Cubing
         ReadWrite
     }
 
+    /// <summary>
+    /// Represents an algorithm file that can be created, read from, and written to
+    /// </summary>
     public class AlgFile
     {
+        /// <summary>
+        /// The number of algorithms in the file
+        /// </summary>
         public int NumAlgs { get; private set; }
 
         private FileStream _stream;
@@ -30,6 +36,14 @@ namespace Cubing
 
         private const string headerString = "Algorithm file";
 
+
+        /// <summary>
+        /// Creates an algorithm file
+        /// </summary>
+        /// <param name="path">The file location of the file</param>
+        /// <param name="fileMode">Creating a new file or Opening an exising file</param>
+        /// <param name="fileAccess">Read or ReadWrite</param>
+        /// <param name="numAlgs">The number of algorithms in the file.  Required if creating a new file, ignored if opening a file</param>
         public AlgFile(string path, AlgFileMode fileMode, AlgFileAccess fileAccess, int numAlgs = -1)
         {
             FileAccess = fileAccess;
@@ -79,21 +93,34 @@ namespace Cubing
             return !_isClosed && FileAccess == AlgFileAccess.ReadWrite;
         }
 
+        /// <summary>
+        /// Close this file, releasing all resourses asociated with it.
+        /// </summary>
         public void Close()
         {
             _stream.Close();
             _isClosed = true;
         }
 
+        /// <summary>
+        /// Writes the contents of the file to the disk
+        /// </summary>
         public void Flush()
         {
             _stream.Flush();
         }
 
+        /// <summary>
+        /// Gets the algorithm a given position
+        /// </summary>
+        /// <param name="algNum">The index of the algorithm</param>
+        /// <returns></returns>
+        /// <exception cref="ObjectDisposedException">Thrown if file is closed</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if index is negative or does not exist in the file</exception>
         public Algorithm Read(int algNum)
         {
             if (!CanRead())
-                throw new NotSupportedException("file is closed");
+                throw new ObjectDisposedException("file is closed");
             if (algNum >= NumAlgs)
                 throw new ArgumentOutOfRangeException("value out of range: " + algNum);
             if (algNum < 0)
@@ -104,6 +131,13 @@ namespace Cubing
             return new Algorithm(algInBytes);
         }
 
+        /// <summary>
+        /// Writes to the algorithm a given position
+        /// </summary>
+        /// <param name="algNum">The index of the algorithm</param>
+        /// <param name="alg">The algorithm to write to the file</param>
+        /// <exception cref="ObjectDisposedException">Thrown if file is closed</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown if index is negative or does not exist in the file</exception>
         public void Write(int algNum, Algorithm alg)
         {
             if (!CanWrite())
@@ -131,7 +165,6 @@ namespace Cubing
             if (access == AlgFileAccess.Read)
                 return System.IO.FileAccess.Read;
             else return System.IO.FileAccess.ReadWrite;
-
         }
 
 

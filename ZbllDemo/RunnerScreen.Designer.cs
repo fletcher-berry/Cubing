@@ -37,7 +37,7 @@
             // 
             // CubePicture
             // 
-            this.CubePicture.Location = new System.Drawing.Point(22, 43);
+            this.CubePicture.Location = new System.Drawing.Point(24, -26);
             this.CubePicture.Name = "CubePicture";
             this.CubePicture.Size = new System.Drawing.Size(715, 561);
             this.CubePicture.TabIndex = 0;

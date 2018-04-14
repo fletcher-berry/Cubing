@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Represents a cube for OLL positions
+    /// </summary>
     public class OllCube : LastLayerCube
     {
         public const int NumPositions = 57;
 
-        public OllCube(double ratio)
+        /// <summary>
+        /// Creates a new OLL cube in a solved state
+        /// </summary>
+        public OllCube()
         {
             UF = URF = UR = URB = UB = ULB = UL = ULF = Ucenter = CubeColor.Yellow;
             RDF = RD = RDB = RF = RB = Rcenter = CubeColor.Green;
@@ -19,14 +25,21 @@ namespace Cubing
             FDR = FD = FDL = FR = FL = Fcenter = CubeColor.Red;
             DF = DRF = DR = DRB = DB = DLB = DL = DLF = Dcenter = CubeColor.White;
             FU = BU = LU = RU = RUF = RUB = LUB = LUF = FUL = BUL = FUR = BUR = CubeColor.None;
-            SizeRatio = ratio;
         }
 
+        /// <summary>
+        /// Gets the number of possible OLL positions on this cube
+        /// </summary>
+        /// <returns></returns>
         public override int GetNumPositions()
         {
             return NumPositions;
         }
 
+        /// <summary>
+        /// Sets up an OLL case on this cube
+        /// </summary>
+        /// <param name="posNum">The number of the position to set up</param>
         public override void SetUpPosition(int posNum)
         {
             Solve();
@@ -105,10 +118,12 @@ namespace Cubing
                 U();
             if (posNum == 40)
                 U2();
-
-
         }
 
+        /// <summary>
+        /// Gets the number of the current position on this cube
+        /// </summary>
+        /// <returns></returns>
         public int GetPosNum()
         {
             AufToDefault();
@@ -147,8 +162,10 @@ namespace Cubing
             return 0;
         }
 
-        // returns number of U moves
-        // works for all cases except H case and cornerrs oriented cases.
+        /// <summary>
+        /// AUFs to default angle for the OLL
+        /// </summary>
+        /// <returns>The number of U moves made</returns>
         public int AufToDefault()
         {
             int coNum = GetCornerOrientationNum();
@@ -241,6 +258,9 @@ namespace Cubing
 
         }
 
+        /// <summary>
+        /// Solves this cube
+        /// </summary>
         public override void Solve()
         {
             UF = URF = UR = URB = UB = ULB = UL = ULF = Ucenter = CubeColor.Yellow;

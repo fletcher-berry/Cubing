@@ -12,7 +12,7 @@ using Cubing.ConstructPosition;
 
 namespace ZbllDemo
 {
-    public partial class MainScreen : SetUpPositionParent
+    public partial class MainScreen : Form, ISetUpPositionParent
     {
         AlgSet Set;
         ICube Cube;
@@ -34,7 +34,8 @@ namespace ZbllDemo
             //cube = new ZbllCube(PreviewCubeSize);
             foreach (var set1 in Enum.GetValues(typeof(AlgSet)).Cast<AlgSet>())
             {
-                AlgSetSelector.Items.Add(set1);
+                if(set1 != AlgSet.All)
+                    AlgSetSelector.Items.Add(set1);
             }
             AlgSetSelector.SelectedItem = AlgSet.ZBLL;
             Set = AlgSet.ZBLL;
@@ -50,7 +51,7 @@ namespace ZbllDemo
 
         private void SampleCubeView_Paint(object sender, PaintEventArgs e)
         {
-            Cube.Paint(e);
+            Cube.Paint(e, PreviewCubeSize);
             Update();
         }
 
@@ -100,6 +101,21 @@ namespace ZbllDemo
             {
                 MessageBox.Show(ex.Message, "invalid range", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void RunFixedButton_Click(object sender, EventArgs e)
+        {
+            if(!int.TryParse(RunFixedBox.Text, out int numCases))
+            {
+                MessageBox.Show("Number of cases is not an integer.", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            List<int> algs = SubsetFile.MakeList(RangeBox.Text, Info.GetRunnerCube(Set).GetNumPositions());
+            algs = algs.Distinct().ToList();
+            var screen = new RunnerScreen(new AlgRunner(Info.GetRunnerCube(Set), new RandomFixedGenerator(algs, numCases), new AlgsFromFileStored(Info.GetAlgFileName(Set))));
+            screen.KeyPreview = true;
+            screen.Show();
+            this.Hide();
         }
 
         public void Reset()
@@ -176,7 +192,7 @@ namespace ZbllDemo
             screen.Show();
         }
 
-        public override void PosNumReceived(AlgSet set, int value)
+        public void PosNumReceived(AlgSet set, int value)
         {
             Set = set;
             AlgSetSelector.SelectedItem = set;
@@ -190,5 +206,7 @@ namespace ZbllDemo
             var form = new SetupForm(this);
             form.Show();
         }
+
+        
     }
 }

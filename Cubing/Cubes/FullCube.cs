@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Represents a last layer cube for algorithm sets that solve the entire last layer
+    /// </summary>
     public abstract class FullCube : LastLayerCube
     {
+        /// <summary>
+        /// Create a FullCube in a solved state
+        /// </summary>
         public FullCube()
         {
             UF = URF = UR = URB = UB = ULB = UL = ULF = Ucenter = CubeColor.Yellow;
@@ -18,6 +24,9 @@ namespace Cubing
             DF = DRF = DR = DRB = DB = DLB = DL = DLF = Dcenter = CubeColor.White;
         }
 
+        /// <summary>
+        /// Solve this cube
+        /// </summary>
         public override void Solve()
         {
             UF = URF = UR = URB = UB = ULB = UL = ULF = Ucenter = CubeColor.Yellow;
@@ -28,6 +37,10 @@ namespace Cubing
             DF = DRF = DR = DRB = DB = DLB = DL = DLF = Dcenter = CubeColor.White;
         }
 
+        /// <summary>
+        /// Sets up a PLL on this cube
+        /// </summary>
+        /// <param name="num">The number of the PLL to set up</param>
         public void SetUpPll(int num)
         {
             if (num < 48)                // adjacent corner swap

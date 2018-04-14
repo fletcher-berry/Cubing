@@ -6,26 +6,38 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Retrieves algorithms from a file.  File is only accessed upon creation of an instance of this class
+    /// </summary>
     public class AlgsFromFileStored : IAlgClient
     {
-        List<Algorithm> Algs;
+        private List<Algorithm> _algs;
 
+        /// <summary>
+        /// Creates a new instance of AlgsFromFileStored
+        /// </summary>
+        /// <param name="fileName"></param>
         public AlgsFromFileStored(string fileName)
         {
-            Algs = new List<Algorithm>();
+            _algs = new List<Algorithm>();
             var file = new AlgFile(fileName, AlgFileMode.Open, AlgFileAccess.Read);
             for(int k = 0; k < file.NumAlgs; k++)
             {
-                Algs.Add(file.Read(k));
+                _algs.Add(file.Read(k));
             }
             file.Close();
         }
 
+        /// <summary>
+        /// Retrieves the algorithm for a given position
+        /// </summary>
+        /// <param name="posNum">The number of a rubik's cube position</param>
+        /// <returns></returns>
         public string GetAlg(int posNum)
         {
-            if (posNum < 0 || posNum >= Algs.Count)
+            if (posNum < 0 || posNum >= _algs.Count)
                 throw new ArgumentOutOfRangeException("illegal position number: " + posNum);
-            return Algs[posNum].ToString();
+            return _algs[posNum].ToString();
         }
 
         public void Terminate()

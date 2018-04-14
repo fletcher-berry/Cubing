@@ -18,17 +18,17 @@ namespace ZbllDemo
         {
             switch (set){
                 case AlgSet.ZBLL:
-                    return new ZbllCube(MainScreen.PreviewCubeSize);
+                    return new ZbllCube();
                 case AlgSet.OLL:
-                    return new OllCube(MainScreen.PreviewCubeSize);
+                    return new OllCube();
                 case AlgSet.OLLCP:
-                    return new OllcpCube(MainScreen.PreviewCubeSize);
+                    return new OllcpCube();
                 case AlgSet.ELLCP:
-                    return new EllcpCube(MainScreen.PreviewCubeSize);
+                    return new EllcpCube();
                 case AlgSet.VLS:
-                    return new VlsCube(MainScreen.PreviewCubeSize);
+                    return new VlsCube();
                 case AlgSet.OneLookLL:
-                    return new OneLookLLCube(MainScreen.PreviewCubeSize);
+                    return new OneLookLLCube();
             }
             return null;
         }
@@ -38,17 +38,17 @@ namespace ZbllDemo
             switch (set)
             {
                 case AlgSet.ZBLL:
-                    return new ZbllCube(MainScreen.CubeSize);
+                    return new ZbllCube();
                 case AlgSet.OLL:
-                    return new OllCube(MainScreen.CubeSize);
+                    return new OllCube();
                 case AlgSet.OLLCP:  
-                    return new OllcpCube(MainScreen.CubeSize);
+                    return new OllcpCube();
                 case AlgSet.ELLCP:
-                    return new EllcpCube(MainScreen.CubeSize);
+                    return new EllcpCube();
                 case AlgSet.VLS:
-                    return new VlsCube(MainScreen.CubeSize);
+                    return new VlsCube();
                 case AlgSet.OneLookLL:
-                    return new OneLookLLCube(MainScreen.CubeSize);
+                    return new OneLookLLCube();
             }
             return null;
         }
