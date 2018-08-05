@@ -47,7 +47,7 @@
             // BackButton
             // 
             this.BackButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.BackButton.Location = new System.Drawing.Point(596, 662);
+            this.BackButton.Location = new System.Drawing.Point(53, 658);
             this.BackButton.Name = "BackButton";
             this.BackButton.Size = new System.Drawing.Size(122, 47);
             this.BackButton.TabIndex = 1;

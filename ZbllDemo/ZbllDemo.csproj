@@ -73,6 +73,14 @@
     <Compile Include="AddSubsetScreen.Designer.cs">
       <DependentUpon>AddSubsetScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="CubeRowControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CubeRowControl.Designer.cs">
+      <DependentUpon>CubeRowControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CustomSubset.cs" />
+    <Compile Include="CustomSubsetFile.cs" />
     <Compile Include="Info.cs" />
     <Compile Include="MainScreen.cs">
       <SubType>Form</SubType>
@@ -82,22 +90,46 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecentSubsetFile.cs" />
     <Compile Include="RunnerScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="RunnerScreen.Designer.cs">
       <DependentUpon>RunnerScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="SetInfoScreen.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SetInfoScreen.Designer.cs">
+      <DependentUpon>SetInfoScreen.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SetParsing\Operator.cs" />
+    <Compile Include="SetParsing\ParsingContext.cs" />
+    <Compile Include="SetParsing\SetParseException.cs" />
+    <Compile Include="SetParsing\SetParser.cs" />
+    <Compile Include="SetParsing\TokenType.cs" />
     <Compile Include="Subset.cs" />
     <Compile Include="SubsetFile.cs" />
+    <Compile Include="SubsetGroup.cs" />
+    <Compile Include="SubsetListEntry.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SubsetListEntry.Designer.cs">
+      <DependentUpon>SubsetListEntry.cs</DependentUpon>
+    </Compile>
     <Compile Include="SubsetListScreen.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SubsetListScreen.Designer.cs">
       <DependentUpon>SubsetListScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="SubsetTools.cs" />
+    <Compile Include="XmlSubsetFile.cs" />
     <EmbeddedResource Include="AddSubsetScreen.resx">
       <DependentUpon>AddSubsetScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CubeRowControl.resx">
+      <DependentUpon>CubeRowControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainScreen.resx">
       <DependentUpon>MainScreen.cs</DependentUpon>
@@ -113,6 +145,12 @@
     </Compile>
     <EmbeddedResource Include="RunnerScreen.resx">
       <DependentUpon>RunnerScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SetInfoScreen.resx">
+      <DependentUpon>SetInfoScreen.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SubsetListEntry.resx">
+      <DependentUpon>SubsetListEntry.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SubsetListScreen.resx">
       <DependentUpon>SubsetListScreen.cs</DependentUpon>

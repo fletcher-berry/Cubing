@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace Cubing
 {
+    /// <summary>
+    /// Constants for named algorithm sets
+    /// </summary>
     public enum AlgSet
     {
-        All, ZBLL, OLL, OLLCP, ELLCP, VLS, OneLookLL
+        All, ZBLL, OLL, OLLCP, ELLCP, VLS, OneLookLL, EG
     }
 }

@@ -30,5 +30,9 @@ namespace Cubing
         /// <param name="sizeRatio">The relative size to paint the cube</param>
         void Paint(System.Windows.Forms.PaintEventArgs e, double sizeRatio);
 
+        void Paint3D(System.Drawing.Graphics g, double sizeRatio, int xShift, int yShift);
+
+        void Paint2D(System.Drawing.Graphics g, double sizeRatio, int xShift, int yShift, int stickerSize); 
+
     }
 }

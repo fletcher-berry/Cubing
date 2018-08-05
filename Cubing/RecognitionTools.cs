@@ -8,6 +8,10 @@ namespace Cubing
 {
     public class RecognitionTools
     {
+        /// <summary>
+        /// Compares 2 side face colors to tell if they are the same, opposite, or if one is to the left or right of the other
+        /// </summary>
+        /// <exception cref="ArgumentException">Thrown if one of the arguments is white, yellow, or none</exception>
         public static ColorCompare CompareColors(CubeColor a, CubeColor b)
         {
             if (!((a == CubeColor.Orange || a == CubeColor.Blue || a == CubeColor.Green || a == CubeColor.Red) &&
@@ -23,9 +27,10 @@ namespace Cubing
             return ColorCompare.Left;
         }
 
+        // is this even used?
         public static Tuple<bool, ColorCompare?> IsMatch(CubeColor color1, CubeColor color2, ColorCompare? start)
         {
-            if((color1 == CubeColor.Yellow && color1 == CubeColor.Yellow) || (color1 == CubeColor.None && color2 == CubeColor.None))
+            if((color1 == CubeColor.Yellow && color2 == CubeColor.Yellow) || (color1 == CubeColor.None && color2 == CubeColor.None))
             {
                 return Tuple.Create<bool, ColorCompare?>(true, start);
             }

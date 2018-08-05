@@ -151,6 +151,30 @@ namespace Cubing.ConstructPosition
             this.Close();
         }
 
+        private void SetUp1lllButton_Click(object sender, EventArgs e)
+        {
+            if (!Cube.Is1lll())
+            {
+                MessageBox.Show("PLL not allowed", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int posNum = Cube.GetPosNum();
+            Parent.PosNumReceived(AlgSet.OneLookLL, posNum);
+            this.Close();
+        }
+
+        private void SetUpEllcpButton_Click(object sender, EventArgs e)
+        {
+            if (!Cube.IsEllcp())
+            {
+                MessageBox.Show("Not a valid ELLCP position", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            int posNum = Cube.GetPosNum();
+            Parent.PosNumReceived(AlgSet.ELLCP, posNum - 3776);
+            this.Close();
+        }
+
         // still need to implement the buttons for the other algorithm sets
     }
 }

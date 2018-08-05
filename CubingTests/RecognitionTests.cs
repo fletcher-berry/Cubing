@@ -14,7 +14,7 @@ namespace CubingTests
         [TestMethod]
         public void PllTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for(int k = 0; k < 72; k++)
             {
                 cube.Solve();
@@ -27,7 +27,7 @@ namespace CubingTests
         [TestMethod]
         public void OneLookTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 0; k < cube.GetNumPositions(); k++)
             {
                 cube.Solve();
@@ -42,7 +42,7 @@ namespace CubingTests
         [TestMethod]
         public void ZbllTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 0; k < 480; k++)
             {
                 cube.Solve();
@@ -56,7 +56,7 @@ namespace CubingTests
         [TestMethod]
         public void DotTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 480; k < 960; k++)
             {
                 cube.Solve();
@@ -70,7 +70,7 @@ namespace CubingTests
         [TestMethod]
         public void TwoEdgeTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 960; k < 3552; k++)
             {
                 cube.Solve();
@@ -84,7 +84,7 @@ namespace CubingTests
         [TestMethod]
         public void HCaseTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 3552; k < 3776; k++)
             {
                 cube.Solve();
@@ -98,7 +98,7 @@ namespace CubingTests
         [TestMethod]
         public void EllcpTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 3776; k < cube.GetNumPositions(); k++)
             {
                 cube.Solve();
@@ -110,10 +110,35 @@ namespace CubingTests
         }
 
         [TestMethod]
+        public void Sample()
+        {
+            OneLookLLCube cube = new OneLookLLCube();
+            cube.Solve();
+            cube.SetUpPosition(3776);
+            int posNum = cube.GetPosNum();
+            Assert.AreEqual(3776, posNum, "failed no auf");
+            cube.Solve();
+            cube.SetUpPosition(3776);
+            cube.U();
+            posNum = cube.GetPosNum();
+            Assert.AreEqual(3776, posNum, "failed U");
+            cube.Solve();
+            cube.SetUpPosition(3776);
+            cube.U2();
+            posNum = cube.GetPosNum();
+            Assert.AreEqual(3776, posNum, "failed U2");
+            cube.Solve();
+            cube.SetUpPosition(3776);
+            cube.Ui();
+            posNum = cube.GetPosNum();
+            Assert.AreEqual(3776, posNum, "failed U'");
+        }
+
+        [TestMethod]
         public void CornerOrientationTests()
         {
             int num;
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 0; k < 480; k+= 24)
             {
                 cube.Solve();
@@ -137,7 +162,7 @@ namespace CubingTests
         [TestMethod]
         public void EdgeOrientationTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 0; k < 36; k ++)
             {
                 int posNum = 72 * k + 960;
@@ -153,7 +178,7 @@ namespace CubingTests
         [TestMethod]
         public void OrientTests()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             for (int k = 0; k < 30; k++)
             {
                 cube.Solve();
@@ -168,7 +193,7 @@ namespace CubingTests
         [TestMethod]
         public void OllTests()
         {
-            OllCube cube = new OllCube(1);
+            OllCube cube = new OllCube();
             for (int k = 0; k < 57; k++)
             {
                 cube.Solve();
@@ -182,7 +207,7 @@ namespace CubingTests
         [TestMethod]
         public void OllcpTests()
         {
-            OllcpCube cube = new OllcpCube(1);
+            OllcpCube cube = new OllcpCube();
             for (int k = 0; k < 329; k++)
             {
                 cube.Solve();
@@ -196,7 +221,7 @@ namespace CubingTests
         [TestMethod]
         public void DifferentAngle()
         {
-            OneLookLLCube cube = new OneLookLLCube(1);
+            OneLookLLCube cube = new OneLookLLCube();
             
             cube.Solve();
             cube.SetUpPosition(447);

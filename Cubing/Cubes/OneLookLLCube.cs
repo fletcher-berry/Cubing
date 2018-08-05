@@ -352,8 +352,9 @@ namespace Cubing
             int auf = AufToDefault();
             int num = (int)UR;
             // zbll and dot cases
-            if((UF == CubeColor.Yellow && UR == CubeColor.Yellow && UL == CubeColor.Yellow && UB == CubeColor.Yellow) ||
-                (FU == CubeColor.Yellow && RU == CubeColor.Yellow && LU == CubeColor.Yellow && BU == CubeColor.Yellow))
+            if(((UF == CubeColor.Yellow && UR == CubeColor.Yellow && UL == CubeColor.Yellow && UB == CubeColor.Yellow) ||
+                (FU == CubeColor.Yellow && RU == CubeColor.Yellow && LU == CubeColor.Yellow && BU == CubeColor.Yellow)) &&
+                GetCornerOrientationNum() < 7)
             {
                 bool zbll = UF == CubeColor.Yellow;
                 int posNum;
@@ -392,7 +393,7 @@ namespace Cubing
                     Orient();
                     return 960 + ollNum + GetPllNum();
                 }
-                else if (coNum == 6)
+                else if (coNum == 6)    // H orientation
                 {
                     int num2 = (int)UR;
                     int posNum = 3552;
@@ -447,9 +448,61 @@ namespace Cubing
                     }
                     else return eoNum;
                 }
+                else    // ELLCP
+                {
+                    int eoNum = GetEdgeOrientationNum();
+                    if(eoNum == 1)
+                    {
+                        Orient();
+                        return 3776 + GetPllNum();
+                    }
+                    else if (eoNum == 4)
+                    {
+                        Orient();
+                        int pllNum = GetPllNum();
+                        int total = 3848 + pllNum;
+                        if (pllNum > 12)
+                            total -= 24;
+                        if (total >= 3879 && total <= 3882)
+                            total -= 2;
+                        if (total >= 3883 && total <= 3889)
+                            total -= 4;
+                        if (total >= 3890 && total <= 3893)
+                            total -= 6;
+                        if (total >= 3894 && total <= 3895)
+                            total -= 8;
+                        return total;
+                    }
+                    else
+                    {
+                        Orient();
+                        int pllNum = GetPllNum();
+                        if (pllNum < 12)
+                            return 3888 + pllNum;
+                        if (pllNum < 50)
+                            return 3900;
+                        else if (pllNum == 50)
+                            return 3901;
+                        else if (pllNum == 51)
+                            return 3902;
+                        else if (pllNum < 56)
+                            return 3903;
+                        else if (pllNum < 60)
+                            return 3904;
+                        else if (pllNum == 60)
+                            return 3906;
+                        else if (pllNum == 61)
+                            return 3905;
+                        else if (pllNum < 64)
+                            return 3907;
+                        else if (pllNum < 68)
+                            return 3908;
+                        else
+                            return 3909;
+
+                    }
+                }
             }
-            
-            return 0;
         }
 
         /// <summary>
@@ -591,6 +644,113 @@ namespace Cubing
             else    // ellcp
             {
 
+                List<CubeColor> edgeColors = new List<CubeColor>() { UB, UR, UF, UL };
+                int flippedCount = edgeColors.Count(x => x != CubeColor.Yellow);
+                if(flippedCount == 2)
+                {
+                    if((UF == CubeColor.Yellow && UB == CubeColor.Yellow) || (UR == CubeColor.Yellow && UL == CubeColor.Yellow))    // opp flip
+                    {
+                        if (UL != CubeColor.Yellow)
+                        {
+                            U();
+                            numAufs++;
+                        }
+                        if(RecognitionTools.CompareColors(RUF, RUB) == ColorCompare.Same && RecognitionTools.CompareColors(LUF, LUB) == ColorCompare.Opposite)
+                        {
+                            U2();
+                            numAufs += 2;
+                        }
+                        else if(RecognitionTools.CompareColors(FUR, FUL) == ColorCompare.Opposite && RecognitionTools.CompareColors(BUR, BUL) == ColorCompare.Same)
+                        {
+                            U2();
+                            numAufs += 2;
+                        }
+                        // ELL
+                        else if(RecognitionTools.CompareColors(RUF, RUB) == ColorCompare.Same && RecognitionTools.CompareColors(LUF, LUB) == ColorCompare.Same)
+                        {
+                            if(RecognitionTools.CompareColors(UF, FUR) == ColorCompare.Same || RecognitionTools.CompareColors(UF, FUR) == ColorCompare.Opposite)
+                            {
+                                U2();
+                                numAufs += 2;
+                            }
+                        }
+                        // diag swap
+                        else if (RecognitionTools.CompareColors(RUF, RUB) == ColorCompare.Opposite && RecognitionTools.CompareColors(LUF, LUB) == ColorCompare.Opposite)
+                        {
+                            if(RecognitionTools.CompareColors(UF, UB) != ColorCompare.Opposite)
+                            {
+                                bool opposites = RecognitionTools.CompareColors(RU, RUF) == ColorCompare.Same || RecognitionTools.CompareColors(RU, RUF) == ColorCompare.Opposite;
+                                bool backOpp = RecognitionTools.CompareColors(RU, UB) == ColorCompare.Opposite;
+                                if (opposites != backOpp)
+                                {
+                                    U2();
+                                    numAufs += 2;
+                                }
+                            } 
+                        }
+                    }
+                    else if (UF == CubeColor.Yellow || UB == CubeColor.Yellow)   // adj flip
+                    {
+                        while (UF != CubeColor.Yellow || UR != CubeColor.Yellow)
+                        {
+                            U();
+                            numAufs++;
+                        }
+                    }
+                }
+                
+                else    // 4 flip
+                {
+                    if(RecognitionTools.CompareColors(FUR, FUL) == RecognitionTools.CompareColors(RUF, RUB))
+                    {
+                        if(RecognitionTools.CompareColors(FUR, FUL) == ColorCompare.Opposite)   // diag swap
+                        {
+                            if(RecognitionTools.CompareColors(UF, UB) == ColorCompare.Opposite) // E or N perm
+                            {
+                                if(RecognitionTools.CompareColors(UR, FUR) == ColorCompare.Opposite)
+                                {
+                                    U();
+                                    numAufs++;
+                                }
+                            }
+                            else    // V or Y perm
+                            {
+                                while(RecognitionTools.CompareColors(UF, FUR) != ColorCompare.Opposite)
+                                {
+                                    U();
+                                    numAufs++;
+                                }
+                            }
+                        }
+                        else    // ELL
+                        {
+                            if (RecognitionTools.CompareColors(UF, UB) == ColorCompare.Opposite) // Z, H, or pure
+                            {
+                                if (RecognitionTools.CompareColors(UF, RUF) == ColorCompare.Same)
+                                {
+                                    U();
+                                    numAufs++;
+                                }
+                            }
+                            else    // U perm
+                            {
+                                while(RecognitionTools.CompareColors(BUL, UB) != ColorCompare.Same)
+                                {
+                                    U();
+                                    numAufs++;
+                                }
+                            }
+                        }
+                    }
+                    else    // adj swap
+                    {
+                        while(RecognitionTools.CompareColors(LUF, LUB) != ColorCompare.Same)
+                        {
+                            U();
+                            numAufs++;
+                        }
+                    }
+                }
             }
             return numAufs;
         }

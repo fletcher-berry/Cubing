@@ -13,51 +13,33 @@ namespace ZbllDemo
 {
     public partial class SubsetListScreen : Form
     {
-        private TableLayoutPanel Panel;
-        List<Subset> Subsets;
-        SubsetFile File;
+        CustomSubsetFile File;
+        AlgSet Set;
 
-        const int HeightPerRow = 90;
+        const int HeightPerRow = 110;
 
-        public SubsetListScreen()
+        public SubsetListScreen(AlgSet set)
         {
+            StartPosition = FormStartPosition.CenterScreen;
             InitializeComponent();
+            Set = set;
+            int startX = 50;
+            int startY = 80;
+            int currY = startY;
 
-            Panel = new TableLayoutPanel();
-            Panel = new TableLayoutPanel { Width = 500 };
-            Panel.ColumnCount = 2;
-            Panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            Panel.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 85F));
-            Panel.TabIndex = 0;
-            Panel.Location = new Point(50, 80);
-            Panel.CellBorderStyle = TableLayoutPanelCellBorderStyle.Single;
 
-            File = new SubsetFile(Tools.shortcutPath);
-            Subsets = File.GetSubsets();
-            Panel.RowCount = Subsets.Count;
-            Panel.Height = Panel.RowCount * HeightPerRow;
-            for(int k = 0; k < Subsets.Count; k++)
+            File = new CustomSubsetFile("customSubsets.xml");
+            var subsets = File.GetSubsets(Set);
+
+            var originalFile = SubsetTools.GetXmlSubsetFile();
+            var nameMap = originalFile.GetNameMap(Set);
+
+            for(int k = 0; k < subsets.Count; k++)
             {
-                Panel.RowStyles.Add(new RowStyle(SizeType.Absolute, HeightPerRow));
-                var set = Subsets[k];
-                Panel.Controls.Add(new TextBox()
-                {
-                    Text = set.Name,
-                    Font = new Font(FontFamily.GenericSansSerif, 12),
-                    Width = 70
-                },0, k);
-                Panel.Controls.Add(new RichTextBox
-                {
-                    Text = set.SubsetList,
-                    Font = new Font(FontFamily.GenericSansSerif, 12),
-                    Width = 400
-                }, 1, k);
+                var control = new SubsetListEntry(subsets[k], File, nameMap) { Location = new Point(startX, currY) };
+                currY += HeightPerRow;
+                this.Controls.Add(control);
             }
-            
-
-
-            Panel.Height = Panel.RowCount * HeightPerRow;
-            this.Controls.Add(Panel);
             this.AutoScroll = true;
         }
 
@@ -66,24 +48,6 @@ namespace ZbllDemo
             this.Close();
         }
 
-        private void SaveButton_Click(object sender, EventArgs e)
-        {
-            var newSubsets = new List<Subset>();
-            for(int k = 0; k < Panel.RowCount; k++)
-            {
-                newSubsets.Add(new Subset { Name = Panel.GetControlFromPosition(0, k).Text, SubsetList = Panel.GetControlFromPosition(1, k).Text });
-            }
 
-            try
-            {
-                File.SaveSubsets(newSubsets);
-                MessageBox.Show("Subsets saved", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch(ArgumentException)
-            {
-                MessageBox.Show("A subset is not in correct form", "error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
-        }
     }
 }

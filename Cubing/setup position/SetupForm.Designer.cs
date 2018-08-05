@@ -59,7 +59,7 @@
             // 
             this.InfoLabel.AutoSize = true;
             this.InfoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.InfoLabel.Location = new System.Drawing.Point(108, 385);
+            this.InfoLabel.Location = new System.Drawing.Point(84, 437);
             this.InfoLabel.Name = "InfoLabel";
             this.InfoLabel.Size = new System.Drawing.Size(53, 20);
             this.InfoLabel.TabIndex = 1;
@@ -123,7 +123,7 @@
             // SetUpOllButton
             // 
             this.SetUpOllButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SetUpOllButton.Location = new System.Drawing.Point(37, 502);
+            this.SetUpOllButton.Location = new System.Drawing.Point(31, 523);
             this.SetUpOllButton.Name = "SetUpOllButton";
             this.SetUpOllButton.Size = new System.Drawing.Size(170, 31);
             this.SetUpOllButton.TabIndex = 7;
@@ -133,7 +133,7 @@
             // SetUpOllcpButton
             // 
             this.SetUpOllcpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SetUpOllcpButton.Location = new System.Drawing.Point(242, 502);
+            this.SetUpOllcpButton.Location = new System.Drawing.Point(246, 523);
             this.SetUpOllcpButton.Name = "SetUpOllcpButton";
             this.SetUpOllcpButton.Size = new System.Drawing.Size(170, 31);
             this.SetUpOllcpButton.TabIndex = 8;
@@ -143,7 +143,7 @@
             // SetUpZbllButton
             // 
             this.SetUpZbllButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SetUpZbllButton.Location = new System.Drawing.Point(433, 502);
+            this.SetUpZbllButton.Location = new System.Drawing.Point(433, 523);
             this.SetUpZbllButton.Name = "SetUpZbllButton";
             this.SetUpZbllButton.Size = new System.Drawing.Size(170, 31);
             this.SetUpZbllButton.TabIndex = 9;
@@ -154,12 +154,13 @@
             // SetUpEllcpButton
             // 
             this.SetUpEllcpButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SetUpEllcpButton.Location = new System.Drawing.Point(433, 545);
+            this.SetUpEllcpButton.Location = new System.Drawing.Point(433, 560);
             this.SetUpEllcpButton.Name = "SetUpEllcpButton";
             this.SetUpEllcpButton.Size = new System.Drawing.Size(170, 31);
             this.SetUpEllcpButton.TabIndex = 10;
             this.SetUpEllcpButton.Text = "Set Up ELLCP";
             this.SetUpEllcpButton.UseVisualStyleBackColor = true;
+            this.SetUpEllcpButton.Click += new System.EventHandler(this.SetUpEllcpButton_Click);
             // 
             // SetUp1lllButton
             // 
@@ -170,6 +171,7 @@
             this.SetUp1lllButton.TabIndex = 11;
             this.SetUp1lllButton.Text = "Set Up 1LLL";
             this.SetUp1lllButton.UseVisualStyleBackColor = true;
+            this.SetUp1lllButton.Click += new System.EventHandler(this.SetUp1lllButton_Click);
             // 
             // CancelButton
             // 

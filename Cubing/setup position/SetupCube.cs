@@ -9,16 +9,19 @@ using System.Windows.Forms;
 
 namespace Cubing.ConstructPosition
 {
-    /*
-     * This class is used so that a user can set up a position on a cube choosing what pieces are what colors.  If the colors of any piece can be determined
-     * from colors that are already placed, they will be placed automatically.  User can undo actions.  From a fully or partially colored cube, a corresponding
-     * ZBLL cube, ELLCP cube, 1LLL cube, OLLCP cube, or OLL cube can be generated with the same position.
-     * To define orientation of the pieces, user clicks on a sticker to color it yellow.
-     * To define permutation of the pieces, user clickes on a sticker, then uses the keyboard to choose a color for the sticker.
-     * Corner permutation must be defined before edge permuatation.
-     * 
-     * Currently only supports creating a ZBLL cube.
-     */
+    /// <summary>
+    /// A cube on which a user can set up a position in the UI
+    /// </summary>
+    /// <remarks>
+    /// This class is used so that a user can set up a position on a cube choosing what pieces are what colors.  If the colors of any piece can be determined
+    /// from colors that are already placed, they will be placed automatically.User can undo actions.From a fully or partially colored cube, a corresponding
+    /// ZBLL cube, ELLCP cube, 1LLL cube, OLLCP cube, or OLL cube can be generated with the same position.
+    /// To define orientation of the pieces, user clicks on a sticker to color it yellow.
+    /// To define permutation of the pieces, user clickes on a sticker, then uses the keyboard to choose a color for the sticker.
+    /// Corner permutation must be defined before edge permuatation.
+    /// 
+    /// Currently only supports creating a ZBLL cube.
+    /// </remarks>
     public class SetupCube : OneLookLLCube
     {
         // The corners and edges are stored as circular linked lists.  The idea is that if all but one color is known, it can be determined.
@@ -63,7 +66,7 @@ namespace Cubing.ConstructPosition
 
         
         /// <summary>
-        /// Creates a new instance of SetupCube in a solved state
+        /// Creates a new instance of SetupCube with no last layer pieces colored (except the center)
         /// </summary>
         public SetupCube(double sizeRatio) : base()
         {
@@ -89,10 +92,15 @@ namespace Cubing.ConstructPosition
 
         }
 
+        /// <summary>
+        /// paints this cube
+        /// </summary>
+        /// <param name="e"></param>
+        /// <param name="sizeRatio">the rrelative size of the cube</param>
         public override void Paint(PaintEventArgs e, double sizeRatio)
         {
             UpdatePieces();
-            Paint2D(e.Graphics, SizeRatio, 0, 0, 18);
+            Paint2D(e.Graphics, sizeRatio, 0, 0, 18);
         }
 
         // During orientation phase, user clicks a sticker to color it yellow.  During permutation phase, user clicks a sticker to select it
@@ -360,7 +368,7 @@ namespace Cubing.ConstructPosition
 
             Point p = Tools.ScalePoint(new Point(xCoord, yCoord), 1 / SizeRatio);
             int x = p.X;
-            int y = (int)(p.Y + (50 / SizeRatio) + 50);
+            int y = (int)(p.Y);
             if (x > 150 - z && x < 150)
             {
                 if (y > 100 && y < 200)

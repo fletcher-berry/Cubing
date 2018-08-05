@@ -16,7 +16,8 @@ namespace ZbllDemo
         public AlgRunner Runner;
 
         private DateTime _spacePressed;
-        private const int _MillisBetweenSpaces = 400;
+        // the amount of time that must occur between space presses to go to the next position.  Used to avoid mistakes from accidental double space presses.
+        private const int _MillisBetweenSpaces = 400;   
 
         const double CubeSize = .9;
 
@@ -46,11 +47,13 @@ namespace ZbllDemo
             char c = e.KeyChar;
             if(c == ' ' && DateTime.Now - _spacePressed > new TimeSpan(0, 0, 0, 0, _MillisBetweenSpaces))
             {
+                // go to the next position
                 _spacePressed = DateTime.Now;
                 Runner.NextPosition();
                 int posNum = Runner.GetCurrentPosNum();
                 if (posNum == -1)
                 {
+                    // show stats on the session
                     DateTime end = DateTime.Now;
                     TimeSpan diff = end - Runner.GetStartTime();
                     TimeSpan perAlg = new TimeSpan(diff.Ticks / Runner.GetNumPositions());
@@ -79,9 +82,8 @@ namespace ZbllDemo
             }
             else if(c == 'z')
             {
-                
+                // toggle showing the algorithm
                 AlgLabel.Visible = !AlgLabel.Visible;
-                
                 NumberLabel.Visible = !NumberLabel.Visible;
             }
             

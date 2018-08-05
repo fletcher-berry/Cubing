@@ -27,6 +27,12 @@ namespace Cubing
 
         private Move() { }
 
+        private Move(int faceCode, int directionCode)
+        {
+            FaceCode = faceCode;
+            DirectionCode = directionCode;
+        }
+
         /// <summary>
         /// Creates a mobe from a byte of a .alg file
         /// </summary>
@@ -43,6 +49,7 @@ namespace Cubing
         /// Creates a move from a string in rubik's cube notation
         /// </summary>
         /// <param name="s">A string containing 1 move in rubik's cube notation</param>
+        /// <exception cref="ArgumentException">Thrown if the parameter is not parsable as an algorithm</exception>
         public Move(string s)
         {
             if(string.IsNullOrEmpty(s))
@@ -133,98 +140,40 @@ namespace Cubing
 
         private static bool IsOuter(int faceCode)
         {
-            return faceCode >= 12 && faceCode <= 17;
+            return faceCode < 12 || faceCode > 17;
         }
 
-        private static int GetYFaceCode(int faceCode)
+        
+        private static int GetTransfromFaceCode(int original, string transform)
         {
-           
-
-            if (!IsOuter(faceCode))
-                return -1;
-            if (faceCode % 6 == 0 || faceCode % 6 == 3)
-                return faceCode + 2;
-            if (faceCode % 6 == 2)
-                return faceCode + 1;
-            if (faceCode % 6 == 5)
-                return faceCode - 5;
-            else
-                return faceCode;
-
+            
+            var modded = original % 6;
+            if (string.IsNullOrEmpty(transform))
+                throw new ArgumentException("invalid input string");
+            if (!IsOuter(original))
+                throw new ArgumentException("cannot apply face transforms on slice moves and rotations");
+            var xList = new List<int> { 1, 2, 4, 5 };
+            var yList = new List<int> { 0, 2, 3, 5 };
+            var zList = new List<int> { 1, 0, 4, 3 };
+            var faceDict = new Dictionary<char, List<int>> { { 'x', xList }, { 'y', yList }, { 'z', zList } };
+            var directionDict = new Dictionary<string, int> { { "", 1 }, { "2", 2 }, { "'", 3 } };
+            try
+            {
+                var faceCodeList = faceDict[transform[0]];
+                var offset = directionDict[transform.Substring(1)];
+                var idx = faceCodeList.IndexOf(modded);
+                if (idx == -1)
+                    return original;
+                idx = (idx + offset) % 4;
+                var newModded = faceCodeList[idx];
+                var newFaceCode = original - modded + newModded;
+                return newFaceCode;
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("invalid input string");
+            }
         }
-
-        private static int GetY2FaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            return GetYFaceCode(GetYFaceCode(faceCode));
-        }
-
-        private static int GetYiFaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            return GetYFaceCode(GetYFaceCode(GetYFaceCode(faceCode)));
-        }
-
-        private static int GetXFaceCode(int faceCode)
-        {
-
-            if (!IsOuter(faceCode))
-                return -1;
-            if (faceCode % 6 == 1)
-                return faceCode + 4;
-            if (faceCode % 6 == 2 || faceCode % 6 == 5)
-                return faceCode - 1;
-            if (faceCode % 6 == 4)
-                return faceCode - 2;
-            else
-                return faceCode;
-        }
-
-        private static int GetX2FaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            return GetXFaceCode(GetXFaceCode(faceCode));
-        }
-
-        private static int GetXiFaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            return GetXFaceCode(GetXFaceCode(GetXFaceCode(faceCode)));
-        }
-
-        private static int GetZFaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            if (faceCode % 6 == 0)
-                return faceCode + 4;
-            if (faceCode % 6 == 1 || faceCode % 6 == 4)
-                return faceCode - 1;
-            if (faceCode % 6 == 3)
-                return faceCode - 2;
-            else
-                return faceCode;
-        }
-
-        private static int GetZ2FaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            return GetZFaceCode(GetZFaceCode(faceCode));
-        }
-
-        private static int GetZiFaceCode(int faceCode)
-        {
-            if (!IsOuter(faceCode))
-                return -1;
-            return GetZFaceCode(GetZFaceCode(GetZFaceCode(faceCode)));
-        }
-
-
 
 
         public Move GetInverse()
@@ -232,9 +181,94 @@ namespace Cubing
             return new Move { FaceCode = FaceCode, DirectionCode = GetInverseDirCode(DirectionCode), OpenBracket = OpenBracket, CloseBracket = CloseBracket };
         }
 
-        //public Move GetUAngle()
-        //{
+        public Move GetTransform(string transform)
+        {
+            if (IsOuter(FaceCode))
+                return new Move { FaceCode = GetTransfromFaceCode(FaceCode, transform), DirectionCode = DirectionCode, CloseBracket = CloseBracket, OpenBracket = OpenBracket };
+            else
+                return GetTransfromSlice(transform);
+        }
 
-        //}
+        public Move GetRLMirror()
+        {
+            if (IsOuter(FaceCode))
+            {
+                var newFaceCode = FaceCode;
+                if (FaceCode % 6 == 0)
+                    newFaceCode += 3;
+                else if (FaceCode % 6 == 3)
+                    newFaceCode -= 3;
+                var newDirectionCode = GetInverseDirCode(DirectionCode);
+                return new Move(newFaceCode, newDirectionCode);
+            }
+            else
+            {
+                bool switchDirection = FaceCode % 3 != 0;
+                var newDirectionCode = switchDirection ? GetInverseDirCode(DirectionCode) : DirectionCode;
+                return new Move(FaceCode, newDirectionCode);
+            }
+        }
+
+        public Move GetFBMirror()
+        {
+            if (IsOuter(FaceCode))
+            {
+                var newFaceCode = FaceCode;
+                if (FaceCode % 6 == 2)
+                    newFaceCode += 3;
+                else if (FaceCode % 6 == 5)
+                    newFaceCode -= 3;
+                var newDirectionCode = GetInverseDirCode(DirectionCode);
+                return new Move(newFaceCode, newDirectionCode);
+            }
+            else
+            {
+                bool switchDirection = FaceCode % 3 != 2;
+                var newDirectionCode = switchDirection ? GetInverseDirCode(DirectionCode) : DirectionCode;
+                return new Move(FaceCode, newDirectionCode);
+            }
+        }
+
+        private Move GetTransfromSlice(string transform)
+        {
+            var originalDict = new Dictionary<int, int> { { 12, 0 }, { 13, 1 }, { 14, 2 }, { 15, 3 }, { 16, 4 }, { 17, 5 } };
+            var transformDict = new Dictionary<char, int> { { 'x', 0 }, { 'y', 1 }, { 'z', 2 } };
+            var answers = new Tuple<int, bool>[,] {
+                { Tuple.Create(12, false), Tuple.Create(14, true), Tuple.Create(13, false)} ,
+                { Tuple.Create(14, true), Tuple.Create(13, false), Tuple.Create(12, false)},
+                { Tuple.Create(13, true), Tuple.Create(12, false), Tuple.Create(14, false) },
+                { Tuple.Create(12, false), Tuple.Create(14, false), Tuple.Create(13, true)} ,
+                { Tuple.Create(14, true), Tuple.Create(13, false), Tuple.Create(12, true)},
+                { Tuple.Create(13, true), Tuple.Create(12, false), Tuple.Create(14, false) }};
+            try
+            {
+                char rotationType = transform[0];
+                string rotationDirection = transform.Substring(1);
+                var answerTuple = answers[originalDict[this.FaceCode], transformDict[rotationType]];
+                if (rotationDirection.Equals(""))
+                {
+                    var newFaceCode = answerTuple.Item1;
+                    var newDirectionCode = answerTuple.Item2 ? GetInverseDirCode(this.DirectionCode) : this.DirectionCode;
+                    return new Move { FaceCode = newFaceCode, DirectionCode = newDirectionCode };
+                }
+                if(rotationDirection.Equals("'"))
+                {
+                    var newFaceCode = answerTuple.Item1;
+                    var newDirectionCode = answerTuple.Item2 ? this.DirectionCode : GetInverseDirCode(this.DirectionCode);
+                    return new Move { FaceCode = newFaceCode, DirectionCode = newDirectionCode };
+                }
+                if(rotationDirection.Equals("2"))
+                {
+                    bool inverseDirection = !answerTuple.Item1.Equals(this.FaceCode);
+                    var newDirectionCode = inverseDirection? GetInverseDirCode(this.DirectionCode) : this.DirectionCode;
+                    return new Move { FaceCode = this.FaceCode, DirectionCode = newDirectionCode };
+                }
+                throw new Exception();
+            }
+            catch(Exception)
+            {
+                throw new ArgumentException("invalid transform string");
+            }
+        }
     }
 }

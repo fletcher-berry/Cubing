@@ -13,9 +13,13 @@ namespace ZbllDemo
 {
     public partial class AddSubsetScreen : Form
     {
-        public AddSubsetScreen()
+        public AlgSet Set;
+
+        public AddSubsetScreen(AlgSet set, string text)
         {
             InitializeComponent();
+            Set = set;
+            AlgListBox.Text = text;
             StartPosition = FormStartPosition.CenterScreen;
         }
 
@@ -23,9 +27,19 @@ namespace ZbllDemo
         {
             try
             {
-                SubsetFile file = new SubsetFile(Tools.shortcutPath);
-                file.MakeList(AlgListBox.Text, int.MaxValue);
-                file.AddSubset(NameBox.Text, AlgListBox.Text);
+                var setName = NameBox.Text;
+                // make sure set name is not same as a predefined set name
+                var defaultFile = new XmlSubsetFile("subsets.xml");
+                var nameMap = defaultFile.GetNameMap(Set);
+                if(nameMap.ContainsKey(setName))
+                {
+                    throw new ArgumentException($"Subset name '{setName}' already exists");
+                }
+                CustomSubsetFile file = new CustomSubsetFile("customSubsets.xml");
+                var rawText = AlgListBox.Text;
+                var newSet = new CustomSubset(setName, rawText, Set);         
+                SubsetTools.ValidateAlgListInput(rawText, nameMap);
+                file.AddSubset(newSet);
                 MessageBox.Show("subset added", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }

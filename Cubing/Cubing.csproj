@@ -46,16 +46,17 @@
     <Compile Include="AlgNumberGenerators\SequentialGenerator.cs" />
     <Compile Include="AlgClients\AlgsFromFileStored.cs" />
     <Compile Include="AlgSet.cs" />
+    <Compile Include="Cubes\AbstractCube2x2.cs" />
     <Compile Include="Cubes\AbstractCube3x3.cs" />
     <Compile Include="AlgFiles\AlgFile.cs" />
     <Compile Include="AlgFiles\Algorithm.cs" />
-    <Compile Include="AlgFiles\AlgUtilities.cs" />
     <Compile Include="AlgFiles\Move.cs" />
     <Compile Include="AlgNumberGenerators\IAlgNumberGenerator.cs" />
     <Compile Include="AlgNumberGenerators\RandomAlgGenerator.cs" />
     <Compile Include="AlgNumberGenerators\SingleCycleGenerator.cs" />
     <Compile Include="AlgRunner.cs" />
     <Compile Include="AlgClients\AlgsFromFile.cs" />
+    <Compile Include="Cubes\EgCube.cs" />
     <Compile Include="Cubes\EllcpCube.cs" />
     <Compile Include="Cubes\OneLookLLCube.cs" />
     <Compile Include="AlgClients\IAlgClient.cs" />
@@ -68,7 +69,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RecognitionTools.cs" />
     <Compile Include="setup position\Action.cs" />
-    <Compile Include="setup position\ActionType.cs" />
     <Compile Include="setup position\CircularLinkedList.cs" />
     <Compile Include="setup position\SetUpPositionParent.cs" />
     <Compile Include="setup position\ListNode.cs" />

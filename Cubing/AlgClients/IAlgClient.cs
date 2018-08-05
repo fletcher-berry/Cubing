@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Cubing
 {
     /// <summary>
-    /// This interface is used to retrieve rubik's cub algorithms
+    /// This interface is used to retrieve rubik's cube algorithms
     /// </summary>
     public interface IAlgClient
     {
