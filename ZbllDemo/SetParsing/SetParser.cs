@@ -9,7 +9,7 @@ namespace ZbllDemo.SetParsing
 {
     public class SetParser
     {
-        public static List<int> Parse(string setStr, Dictionary<string, List<int>> nameMap, List<CustomSubset> customSubsets)
+        public static List<int> Parse(string setStr, Dictionary<string, List<int>> nameMap, List<CustomSubset> customSubsets, int max)
         {
             var currStr = setStr.Trim();
             List<int> algNumbers = new List<int>();
@@ -38,7 +38,7 @@ namespace ZbllDemo.SetParsing
                         }
                         try
                         {
-                            List<int> fromRange = SubsetTools.GetListFromRange(currStr.Substring(0, endIdx));
+                            List<int> fromRange = SubsetTools.GetListFromRange(currStr.Substring(0, endIdx), max);
                             algNumbers = Combine(algNumbers, fromRange, lastOperator);
                             expectedToken = TokenType.Operator;
                             currStr = currStr.Substring(endIdx);

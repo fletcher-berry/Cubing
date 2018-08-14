@@ -33,7 +33,7 @@ namespace ZbllDemo
             {
                 var nameMap = SubsetTools.GetXmlSubsetFile().GetNameMap(CustomSubset.AlgSet);
                 var rangesWithSubsets = RangeListBox.Text;
-                SubsetTools.ValidateAlgListInput(rangesWithSubsets, nameMap);
+                SubsetTools.ValidateAlgListInput(rangesWithSubsets, nameMap, Info.GetNumPositionsInSet(CustomSubset.AlgSet));
                 CustomSubset.RangeStr = rangesWithSubsets;
                 File.SaveSubset(CustomSubset);
                 MessageBox.Show("subset saved", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);

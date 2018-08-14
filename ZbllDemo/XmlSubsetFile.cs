@@ -118,7 +118,7 @@ namespace ZbllDemo
                 var subsetNode = subsetNodes[k];
                 var key = subsetNode.Attributes["name"].Value;
                 var rangeRext = subsetNode.InnerText;
-                List<int> posNums = SubsetTools.GetListFromRanges(rangeRext);
+                List<int> posNums = SubsetTools.GetListFromRanges(rangeRext, Info.GetNumPositionsInSet(set));
                 names.Add(subsetNode.Attributes["name"].Value, posNums);
             }
             return names;

@@ -70,6 +70,28 @@ namespace ZbllDemo
             return null;
         }
 
+        public static int GetNumPositionsInSet(AlgSet set)
+        {
+            switch (set)
+            {
+                case AlgSet.ZBLL:
+                    return 480;
+                case AlgSet.OLL:
+                    return 57;
+                case AlgSet.OLLCP:
+                    return 329;
+                case AlgSet.ELLCP:
+                    return 134;
+                case AlgSet.VLS:
+                    return 864;
+                case AlgSet.OneLookLL:
+                    return 3910;
+                case AlgSet.EG:
+                    return 120;
+            }
+            return 0;
+        }
+
     }
 
 

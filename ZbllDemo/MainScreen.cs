@@ -164,7 +164,7 @@ namespace ZbllDemo
                 // if only one number given, start at that number and don't end until the entire alg set is complete
                 if (int.TryParse(RangeBox.Text, out int startNum))
                 {
-                    algs = SubsetTools.GetListFromRange($"{startNum}-{Info.GetCube(Set).GetNumPositions() - 1}");
+                    algs = SubsetTools.GetListFromRange($"{startNum}-{Info.GetCube(Set).GetNumPositions() - 1}", Info.GetNumPositionsInSet(Set));
                 }
                 else
                 {
@@ -381,7 +381,7 @@ namespace ZbllDemo
         public List<int> GetListFromAlgSet(AlgSet set, string fromTextBox)
         {
             Dictionary<string, List<int>> subsets = XmlSubsetFile.GetNameMap(set);
-            return SetParser.Parse(fromTextBox, subsets, CustomSubsetFile.GetSubsets(Set));
+            return SetParser.Parse(fromTextBox, subsets, CustomSubsetFile.GetSubsets(Set), Info.GetNumPositionsInSet(set));
         }
 
 
@@ -434,7 +434,7 @@ namespace ZbllDemo
             var nameMap = XmlSubsetFile.GetNameMap(Set);
             try
             {
-                SubsetTools.ValidateAlgListInput(RangeBox.Text, nameMap);
+                SubsetTools.ValidateAlgListInput(RangeBox.Text, nameMap, Info.GetNumPositionsInSet(Set));
                 var screen = new SetInfoScreen(Set, RangeBox.Text, nameMap);
                 screen.Show();
             }

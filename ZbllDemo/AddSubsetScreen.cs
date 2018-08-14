@@ -38,7 +38,7 @@ namespace ZbllDemo
                 CustomSubsetFile file = new CustomSubsetFile("customSubsets.xml");
                 var rawText = AlgListBox.Text;
                 var newSet = new CustomSubset(setName, rawText, Set);         
-                SubsetTools.ValidateAlgListInput(rawText, nameMap);
+                SubsetTools.ValidateAlgListInput(rawText, nameMap, Info.GetNumPositionsInSet(Set));
                 file.AddSubset(newSet);
                 MessageBox.Show("subset added", "success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();

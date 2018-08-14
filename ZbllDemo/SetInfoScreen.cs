@@ -37,7 +37,7 @@ namespace ZbllDemo
                 NameLabel.Visible = true;
             }
 
-            List<int> posNums = SetParser.Parse(rangeList, nameMap, new List<CustomSubset>());
+            List<int> posNums = SetParser.Parse(rangeList, nameMap, new List<CustomSubset>(), Info.GetNumPositionsInSet(set));
             Cubes = posNums.ConvertAll(num =>
             {
                 var cube = Info.GetCube(set);
