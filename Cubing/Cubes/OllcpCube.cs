@@ -195,7 +195,92 @@ namespace Cubing
         /// <returns></returns>
         public int GetPosNum()
         {
-            return 0;
+            AufToDefault();
+            int eoNum = GetEdgeOrientationNum();
+            int coNum = GetCornerOrientationNum();
+            int result = coNum;
+            if (coNum < 6)
+            {
+                result = result * 48 + 6 * GetEdgeOrientationNum();
+                Orient();
+                result += GetCpNum();
+                return result;
+            }
+            else if (coNum == 6)
+            {
+                result = 288;
+                if (eoNum == 3 || eoNum == 1)
+                {
+                    if (eoNum == 1)
+                        result += 6;
+                    Orient();
+                    result += GetCpNum();
+                    return result;
+                }
+                else
+                {
+                    result = 300;
+                    if (eoNum == 4)
+                        result += 4;
+                    else if (eoNum == 5)
+                        result += 8;
+                    else if (eoNum == 7)
+                        result += 12;
+                    Orient();
+                    int cpNum = GetCpNum();
+                    if (cpNum == 3)
+                        result += 1;
+                    else if (cpNum == 4)
+                        result += 2;
+                    else if (cpNum == 5)
+                        result += 3;
+                    return result;
+                }
+            }
+            else
+            {
+                if (eoNum == 1)
+                {
+                    result = 316;
+                    Orient();
+                    int cpNum = GetCpNum();
+                    if (cpNum == 3)
+                        result += 1;
+                    else if (cpNum == 1)
+                        result += 2;
+                    else if (cpNum == 0)
+                        result += 3;
+                    else if (cpNum == 4 || cpNum == 5)
+                        result += cpNum;
+                    return result;
+                }
+                else if (eoNum == 4)
+                {
+                    result = 322;
+                    Orient();
+                    int cpNum = GetCpNum();
+                    if (cpNum == 3)
+                        result += 1;
+                    else if (cpNum == 4)
+                        result += 2;
+                    else if (cpNum == 5)
+                        result += 3;
+                    return result;
+                }
+                else
+                {
+                    result = 326;
+                    Orient();
+                    int cpNum = GetCpNum();
+                    if (cpNum == 4)
+                        result += 1;
+                    else if (cpNum == 5)
+                        result += 2;
+                    return result;
+                }
+            }
+
+
         }
 
         /// <summary>
@@ -276,6 +361,37 @@ namespace Cubing
             }
             return numAufs;
         }
+
+        public int GetCpNum()
+        {
+            ColorCompare left = RecognitionTools.CompareColors(LUB, LUF);
+            ColorCompare front = RecognitionTools.CompareColors(FUL, FUR);
+            if (left == ColorCompare.Same && front == ColorCompare.Same)
+            {
+                return 5;
+            }
+            else if (left == ColorCompare.Opposite && front == ColorCompare.Opposite)
+            {
+                return 4;
+            }
+            else if (left == ColorCompare.Same)
+            {
+                return 1;
+            }
+            else if (left == ColorCompare.Opposite)
+            {
+                return 0;
+            }
+            else if (front == ColorCompare.Same)
+            {
+                return 3;
+            }
+            else
+            {
+                return 2;
+            }
+        }
+
 
         /// <summary>
         /// Solves this cube
