@@ -51,7 +51,6 @@
             this.CubeBox.Size = new System.Drawing.Size(502, 445);
             this.CubeBox.TabIndex = 0;
             this.CubeBox.TabStop = false;
-            this.CubeBox.Click += new System.EventHandler(this.CubeBox_Click);
             this.CubeBox.Paint += new System.Windows.Forms.PaintEventHandler(this.CubeBox_Paint);
             this.CubeBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.CubeBox_MouseClick);
             // 
@@ -61,9 +60,9 @@
             this.InfoLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.InfoLabel.Location = new System.Drawing.Point(84, 437);
             this.InfoLabel.Name = "InfoLabel";
-            this.InfoLabel.Size = new System.Drawing.Size(53, 20);
+            this.InfoLabel.Size = new System.Drawing.Size(15, 20);
             this.InfoLabel.TabIndex = 1;
-            this.InfoLabel.Text = "label1";
+            this.InfoLabel.Text = "r";
             // 
             // GreenLabel
             // 

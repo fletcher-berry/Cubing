@@ -1,6 +1,6 @@
 ﻿namespace ZbllDemo
 {
-    partial class RunnerScreen
+    partial class DefaultRunnerScreen
     {
         /// <summary>
         /// Required designer variable.
@@ -76,7 +76,7 @@
             this.AlgLabel.TabIndex = 3;
             this.AlgLabel.Text = "R U R\' U\' R\' F R2 U\' R\' U\' R U R\' F\'";
             // 
-            // RunnerScreen
+            // DefaultRunnerScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -85,11 +85,9 @@
             this.Controls.Add(this.NumberLabel);
             this.Controls.Add(this.BackButton);
             this.Controls.Add(this.CubePicture);
-            this.Name = "RunnerScreen";
+            this.Name = "DefaultRunnerScreen";
             this.Text = "RunnerScreen";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RunnerScreen_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.RunnerScreen_FormClosed);
-            this.Load += new System.EventHandler(this.RunnerScreen_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RunnerScreen_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.CubePicture)).EndInit();
             this.ResumeLayout(false);

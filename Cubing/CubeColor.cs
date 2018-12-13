@@ -15,7 +15,7 @@ namespace Cubing
     };
 
     /// <summary>
-    /// Constants for describiing color comparisons with the side faces, not white and yellow.
+    /// Constants for describing color comparisons with the side faces, not white and yellow.
     /// </summary>
     public enum ColorCompare
     {

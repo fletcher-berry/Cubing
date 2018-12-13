@@ -13,7 +13,7 @@ using ZbllDemo.SetParsing;
 
 namespace ZbllDemo
 {
-    public partial class MainScreen : Form, ISetUpPositionParent
+    public partial class MainScreen : Form
     {
         AlgSet Set;     // the current algorithm set 
         ICube Cube;     // the current cube on teh screen
@@ -99,7 +99,7 @@ namespace ZbllDemo
             {
                 List<int> algs = GetListFromAlgSet(Set, RangeBox.Text);
                 algs = algs.Distinct().ToList();
-                var screen = new RunnerScreen(new AlgRunner(Info.GetCube(Set), new RandomAlgGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))));
+                var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new RandomAlgGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
                 screen.KeyPreview = true;
                 screen.Show();
                 this.Hide();
@@ -122,7 +122,7 @@ namespace ZbllDemo
             }
             List<int> algs = GetListFromAlgSet(Set, RangeBox.Text);
             algs = algs.Distinct().ToList();
-            var screen = new RunnerScreen(new AlgRunner(Info.GetCube(Set), new RandomFixedGenerator(algs, numCases), new AlgsFromFileStored(Info.GetAlgFileName(Set))));
+            var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new RandomFixedGenerator(algs, numCases), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
             screen.KeyPreview = true;
             screen.Show();
             this.Hide();
@@ -137,7 +137,7 @@ namespace ZbllDemo
                 List<int> algs = GetListFromAlgSet(Set, RangeBox.Text);
                 algs = algs.Distinct().ToList();
                 //var screen = new RunnerScreen(new AlgRunner(new ZbllCube(CubeSize), new SingleCycleGenerator(algs), new AlgsFromFile(new AlgFile("zbll.alg", AlgFileMode.Open, AlgFileAccess.Read))));
-                var screen = new RunnerScreen(new AlgRunner(Info.GetCube(Set), new SingleCycleGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))));
+                var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new SingleCycleGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
                 screen.KeyPreview = true;
                 screen.Show();
                 this.Hide();
@@ -173,7 +173,7 @@ namespace ZbllDemo
                 }
                 
                 //var screen = new RunnerScreen(new AlgRunner(new ZbllCube(CubeSize), new SingleCycleGenerator(algs), new AlgsFromFile(new AlgFile("zbll.alg", AlgFileMode.Open, AlgFileAccess.Read))));
-                var screen = new RunnerScreen(new AlgRunner(Info.GetCube(Set), new SequentialGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))));
+                var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new SequentialGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
                 screen.KeyPreview = true;
                 screen.Show();
                 this.Hide();
@@ -409,7 +409,7 @@ namespace ZbllDemo
         }
 
         // When a postition is constructed by the user, show it on the screen
-        public void PosNumReceived(AlgSet set, int value)
+        void PosNumReceived(AlgSet set, int value)
         {
             Set = set;
             AlgSetSelector.SelectedItem = set;
@@ -420,7 +420,7 @@ namespace ZbllDemo
 
         private void ConstructPostionButton_Click(object sender, EventArgs e)
         {
-            var form = new SetupForm(this);
+            var form = new SetupForm(PosNumReceived);
             form.Show();
         }
 
@@ -442,6 +442,11 @@ namespace ZbllDemo
             {
                 MessageBox.Show(ex.Message, "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void RunnerScreenCallback()
+        {
+            this.Show();
         }
     }
 }

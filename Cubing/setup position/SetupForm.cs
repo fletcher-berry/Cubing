@@ -17,24 +17,28 @@ namespace Cubing.ConstructPosition
     /// </summary>
     public partial class SetupForm : Form
     {
+        /// <summary>
+        /// The cube displayed on the screen
+        /// </summary>
         public SetupCube Cube;
+
+        /// <summary>
+        /// The action for the clinet to take when the cube is submitted
+        /// </summary>
+        private Action<AlgSet, int> _callback;
 
         const double SizeRatio = .8;
 
-        /// <summary>
-        /// The form which created an instance of this form
-        /// </summary>
-        ISetUpPositionParent Parent;
 
         /// <summary>
         /// Creates a new instance of SetupFrom
         /// </summary>
         /// <param name="screen">The form which created an instance of this form</param>
-        public SetupForm(ISetUpPositionParent screen)
+        public SetupForm(Action<AlgSet, int> callback)
         {
             InitializeComponent();
             Cube = new SetupCube(SizeRatio);
-            Parent = screen;
+            _callback = callback;
             InfoLabel.Text = GetInfoString(Cube.State);
 
             OrangeLabel.Visible = false;
@@ -56,10 +60,12 @@ namespace Cubing.ConstructPosition
             Cube.Paint(e, SizeRatio);
         }
 
-        // gives a description of how to interact with the cube given its state
+        /// <summary>
+        /// gives a description of how to interact with the cube given its state
+        /// </summary>
         public static string GetInfoString(SetupState state)
         {
-            switch(state)
+            switch (state)
             {
                 case SetupState.Orienatation:
                     return "Orientation: \nclick a piece to place yellow on that piece";
@@ -72,11 +78,11 @@ namespace Cubing.ConstructPosition
             }
         }
 
-        private void CubeBox_Click(object sender, EventArgs e)
-        {
-            
-        }
-
+        /// <summary>
+        /// Handle mouse click events on the displayed cube
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CubeBox_MouseClick(object sender, MouseEventArgs e)
         {
             Cube.Click(e);
@@ -87,9 +93,10 @@ namespace Cubing.ConstructPosition
             OrangeLabel.Visible = available.Contains(CubeColor.Orange);
             GreenLabel.Visible = available.Contains(CubeColor.Green);
             BlueLabel.Visible = available.Contains(CubeColor.Blue);
-            RedLabel.Visible = available.Contains(CubeColor.Red);   
+            RedLabel.Visible = available.Contains(CubeColor.Red);
             Refresh();
         }
+
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -97,7 +104,7 @@ namespace Cubing.ConstructPosition
             InfoLabel.Text = GetInfoString(Cube.State);
             if (Cube.State == SetupState.EP)
                 SetUpOllcpButton.Visible = true;
-            if(Cube.State == SetupState.Compeleted)
+            if (Cube.State == SetupState.Compeleted)
             {
                 SetUpZbllButton.Visible = true;
                 SetUpEllcpButton.Visible = true;
@@ -111,12 +118,17 @@ namespace Cubing.ConstructPosition
             Refresh();
         }
 
+        /// <summary>
+        /// Undo the last action done on the cube
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UndoButton_Click(object sender, EventArgs e)
         {
             Cube.Undo();
             Cube.SelectedNode = null;
             InfoLabel.Text = GetInfoString(Cube.State);
-            if(Cube.State == SetupState.EP)
+            if (Cube.State == SetupState.EP)
             {
                 SetUpZbllButton.Visible = false;
                 SetUpEllcpButton.Visible = false;
@@ -138,19 +150,28 @@ namespace Cubing.ConstructPosition
             this.Close();
         }
 
-        // Sets up the constructed ZBLL position on the parent form
+        /// <summary>
+        /// Sends a ZBLL postition number back to the client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetUpZbllButton_Click(object sender, EventArgs e)
         {
-            if(!Cube.IsZbll())
+            if (!Cube.IsZbll())
             {
                 MessageBox.Show("Not a valid ZBLL position.", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             int posNum = Cube.GetPosNum();
-            Parent.PosNumReceived(AlgSet.ZBLL, posNum);
+            _callback(AlgSet.ZBLL, posNum);
             this.Close();
         }
 
+        /// <summary>
+        /// Sends a 1LLL position number back to the client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetUp1lllButton_Click(object sender, EventArgs e)
         {
             if (!Cube.Is1lll())
@@ -159,10 +180,15 @@ namespace Cubing.ConstructPosition
                 return;
             }
             int posNum = Cube.GetPosNum();
-            Parent.PosNumReceived(AlgSet.OneLookLL, posNum);
+            _callback(AlgSet.OneLookLL, posNum);
             this.Close();
         }
 
+        /// <summary>
+        /// Sends an ELLCP position number back to the client
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SetUpEllcpButton_Click(object sender, EventArgs e)
         {
             if (!Cube.IsEllcp())
@@ -171,7 +197,7 @@ namespace Cubing.ConstructPosition
                 return;
             }
             int posNum = Cube.GetPosNum();
-            Parent.PosNumReceived(AlgSet.ELLCP, posNum - 3776);
+            _callback(AlgSet.ELLCP, posNum - 3776);
             this.Close();
         }
 

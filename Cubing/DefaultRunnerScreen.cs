@@ -11,18 +11,31 @@ using System.Windows.Forms;
 
 namespace ZbllDemo
 {
-    public partial class RunnerScreen : Form
+    /// <summary>
+    /// Runner screen that iterates through cobe positions and can show algotithms for those positions.
+    /// This Form is designed to be easily used by client applications.
+    /// </summary>
+    public partial class DefaultRunnerScreen : Form
     {
+
         public AlgRunner Runner;
 
         private DateTime _spacePressed;
-        // the amount of time that must occur between space presses to go to the next position.  Used to avoid mistakes from accidental double space presses.
+        
+        /// <summary>
+        /// the amount of time that must occur between space presses to go to the next position.  Used to avoid mistakes from accidental double space presses.
+        /// </summary>
         private const int _MillisBetweenSpaces = 400;   
 
         const double CubeSize = .9;
 
+        /// <summary>
+        /// The action to be executed when the form is closed.
+        /// </summary>
+        private Action _callback;
 
-        public RunnerScreen(AlgRunner runner)
+
+        public DefaultRunnerScreen(AlgRunner runner, Action callback = null)
         {
             Runner = runner;
             Runner.GetCube().SetUpPosition(Runner.GetCurrentPosNum());
@@ -33,14 +46,10 @@ namespace ZbllDemo
             AlgLabel.Hide();
             NumberLabel.Hide();
             _spacePressed = DateTime.Now;
+            _callback = callback;
         }
 
-        private void RunnerScreen_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        
+   
 
         private void RunnerScreen_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -69,7 +78,6 @@ namespace ZbllDemo
                     }
                     MessageBox.Show("Time: " + time + "\nAlgs: " + Runner.GetNumPositions() + "\nTime per alg: " + timePerAlg,
                         "Results", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Info.MainForm.Reset();
                     this.Close();
                 }
                 else
@@ -80,7 +88,7 @@ namespace ZbllDemo
                     Refresh();
                 }
             }
-            else if(c == 'z')
+            else if(c == 'z' || c == 'Z')
             {
                 // toggle showing the algorithm
                 AlgLabel.Visible = !AlgLabel.Visible;
@@ -91,15 +99,9 @@ namespace ZbllDemo
 
         private void BackButton_Click(object sender, EventArgs e)
         {
-            Info.MainForm.Reset();
             this.Close();
         }
 
-        private void RunnerScreen_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            
-                
-        }
 
         private void CubePicture_Paint(object sender, PaintEventArgs e)
         {
@@ -109,7 +111,7 @@ namespace ZbllDemo
         private void RunnerScreen_FormClosed(object sender, FormClosedEventArgs e)
         {
             Runner.AlgClient.Terminate();
-            Info.MainForm.Show();
+            _callback?.Invoke();
         }
     }
 }
