@@ -62,7 +62,7 @@ namespace ZbllDemo
 
         private void ViewButton_Click(object sender, EventArgs e)
         {
-            var screen = new SetInfoScreen(CustomSubset.AlgSet, CustomSubset.RangeStr, SubsetTools.GetXmlSubsetFile().GetNameMap(CustomSubset.AlgSet), CustomSubset.Name);
+            var screen = new SetInfoScreen(CustomSubset.AlgSet, CustomSubset.RangeStr, SubsetTools.GetXmlSubsetFile().GetNameMap(CustomSubset.AlgSet), setName: CustomSubset.Name);
             screen.Show();
             this.ParentForm.Close();
         }

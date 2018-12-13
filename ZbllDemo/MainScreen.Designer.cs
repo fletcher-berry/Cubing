@@ -59,6 +59,7 @@
             this.CustomSubsetSelector = new System.Windows.Forms.ListBox();
             this.RecentSubsetSelector = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.SampleCubeView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -183,7 +184,7 @@
             // ViewSubsetsButton
             // 
             this.ViewSubsetsButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ViewSubsetsButton.Location = new System.Drawing.Point(1256, 245);
+            this.ViewSubsetsButton.Location = new System.Drawing.Point(1256, 298);
             this.ViewSubsetsButton.Name = "ViewSubsetsButton";
             this.ViewSubsetsButton.Size = new System.Drawing.Size(202, 34);
             this.ViewSubsetsButton.TabIndex = 13;
@@ -238,7 +239,7 @@
             this.SubsetSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SubsetSelector.FormattingEnabled = true;
             this.SubsetSelector.ItemHeight = 22;
-            this.SubsetSelector.Location = new System.Drawing.Point(1066, 40);
+            this.SubsetSelector.Location = new System.Drawing.Point(1066, 93);
             this.SubsetSelector.Name = "SubsetSelector";
             this.SubsetSelector.Size = new System.Drawing.Size(173, 202);
             this.SubsetSelector.TabIndex = 20;
@@ -248,7 +249,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(711, 11);
+            this.label1.Location = new System.Drawing.Point(711, 64);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 29);
             this.label1.TabIndex = 21;
@@ -257,7 +258,7 @@
             // ToRangeButton
             // 
             this.ToRangeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 13F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.ToRangeButton.Location = new System.Drawing.Point(1186, 351);
+            this.ToRangeButton.Location = new System.Drawing.Point(1186, 394);
             this.ToRangeButton.Name = "ToRangeButton";
             this.ToRangeButton.Size = new System.Drawing.Size(168, 34);
             this.ToRangeButton.TabIndex = 22;
@@ -270,7 +271,7 @@
             this.GroupSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GroupSelector.FormattingEnabled = true;
             this.GroupSelector.ItemHeight = 22;
-            this.GroupSelector.Location = new System.Drawing.Point(685, 40);
+            this.GroupSelector.Location = new System.Drawing.Point(685, 93);
             this.GroupSelector.Name = "GroupSelector";
             this.GroupSelector.Size = new System.Drawing.Size(173, 202);
             this.GroupSelector.TabIndex = 23;
@@ -281,7 +282,7 @@
             this.SubgroupSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SubgroupSelector.FormattingEnabled = true;
             this.SubgroupSelector.ItemHeight = 22;
-            this.SubgroupSelector.Location = new System.Drawing.Point(878, 40);
+            this.SubgroupSelector.Location = new System.Drawing.Point(878, 93);
             this.SubgroupSelector.Name = "SubgroupSelector";
             this.SubgroupSelector.Size = new System.Drawing.Size(173, 202);
             this.SubgroupSelector.TabIndex = 25;
@@ -291,7 +292,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(891, 8);
+            this.label2.Location = new System.Drawing.Point(891, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(125, 29);
             this.label2.TabIndex = 24;
@@ -301,7 +302,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(1089, 8);
+            this.label3.Location = new System.Drawing.Point(1089, 61);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(94, 29);
             this.label3.TabIndex = 26;
@@ -353,7 +354,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(1264, 5);
+            this.label5.Location = new System.Drawing.Point(1264, 58);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(194, 29);
             this.label5.TabIndex = 33;
@@ -364,7 +365,7 @@
             this.CustomSubsetSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CustomSubsetSelector.FormattingEnabled = true;
             this.CustomSubsetSelector.ItemHeight = 22;
-            this.CustomSubsetSelector.Location = new System.Drawing.Point(1269, 40);
+            this.CustomSubsetSelector.Location = new System.Drawing.Point(1269, 93);
             this.CustomSubsetSelector.Name = "CustomSubsetSelector";
             this.CustomSubsetSelector.Size = new System.Drawing.Size(173, 202);
             this.CustomSubsetSelector.TabIndex = 32;
@@ -375,9 +376,9 @@
             this.RecentSubsetSelector.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RecentSubsetSelector.FormattingEnabled = true;
             this.RecentSubsetSelector.ItemHeight = 22;
-            this.RecentSubsetSelector.Location = new System.Drawing.Point(789, 289);
+            this.RecentSubsetSelector.Location = new System.Drawing.Point(789, 332);
             this.RecentSubsetSelector.Name = "RecentSubsetSelector";
-            this.RecentSubsetSelector.Size = new System.Drawing.Size(364, 180);
+            this.RecentSubsetSelector.Size = new System.Drawing.Size(364, 158);
             this.RecentSubsetSelector.TabIndex = 35;
             this.RecentSubsetSelector.SelectedValueChanged += new System.EventHandler(this.RecentSubsetSelector_SelectedValueChanged);
             // 
@@ -385,17 +386,28 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(784, 257);
+            this.label6.Location = new System.Drawing.Point(784, 300);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 29);
             this.label6.TabIndex = 34;
             this.label6.Text = "Recent:";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(776, 18);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(439, 29);
+            this.label7.TabIndex = 36;
+            this.label7.Text = "Select a subset, add it to input, and Run!";
             // 
             // MainScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1515, 753);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.RecentSubsetSelector);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -469,6 +481,7 @@
         private System.Windows.Forms.ListBox CustomSubsetSelector;
         private System.Windows.Forms.ListBox RecentSubsetSelector;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }
 

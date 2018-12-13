@@ -32,6 +32,7 @@
             this.BackButton = new System.Windows.Forms.Button();
             this.NumberLabel = new System.Windows.Forms.Label();
             this.AlgLabel = new System.Windows.Forms.Label();
+            this.HelpLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.CubePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -76,11 +77,22 @@
             this.AlgLabel.TabIndex = 3;
             this.AlgLabel.Text = "R U R\' U\' R\' F R2 U\' R\' U\' R U R\' F\'";
             // 
+            // HelpLabel
+            // 
+            this.HelpLabel.AutoSize = true;
+            this.HelpLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.HelpLabel.Location = new System.Drawing.Point(249, 658);
+            this.HelpLabel.Name = "HelpLabel";
+            this.HelpLabel.Size = new System.Drawing.Size(318, 20);
+            this.HelpLabel.TabIndex = 4;
+            this.HelpLabel.Text = "Press spacebar to move to next position. ";
+            // 
             // DefaultRunnerScreen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(782, 753);
+            this.Controls.Add(this.HelpLabel);
             this.Controls.Add(this.AlgLabel);
             this.Controls.Add(this.NumberLabel);
             this.Controls.Add(this.BackButton);
@@ -101,5 +113,6 @@
         private System.Windows.Forms.Button BackButton;
         private System.Windows.Forms.Label NumberLabel;
         private System.Windows.Forms.Label AlgLabel;
+        private System.Windows.Forms.Label HelpLabel;
     }
 }

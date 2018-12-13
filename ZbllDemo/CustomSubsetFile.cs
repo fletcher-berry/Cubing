@@ -55,12 +55,12 @@ namespace ZbllDemo
             doc.Load(Name);
             var xpath = $"subsets/{newSet.AlgSet.ToString()}";
 
+            // validating subset name
             var parentNode = doc.SelectSingleNode(xpath);
             var checkDupXpath = $"/subset[@name='{newSet.Name}']";
             var matchingName = parentNode.SelectNodes(checkDupXpath);
             if (matchingName.Count > 0)
                 throw new ArgumentException("Duplicate set name");
-
             for(var k = 0; k < newSet.Name.Length; k++)
             {
                 if (!char.IsLetter(newSet.Name[k]) && !char.IsDigit(newSet.Name[k]) && newSet.Name[k] != ' ' && newSet.Name[k] != '-')

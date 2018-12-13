@@ -18,6 +18,12 @@ namespace ZbllDemo
     public partial class DefaultRunnerScreen : Form
     {
 
+        private static readonly string[] helpLabels = new string[]
+        {
+            "Press Spacebar to move to the next position. \nPress 'z' to show algorithm.",
+            "Press Spacebar to move to the next position. \nPress 'z' to hide algorithm."
+        };
+
         public AlgRunner Runner;
 
         private DateTime _spacePressed;
@@ -45,6 +51,7 @@ namespace ZbllDemo
             StartPosition = FormStartPosition.CenterScreen;
             AlgLabel.Hide();
             NumberLabel.Hide();
+            HelpLabel.Text = helpLabels[0];
             _spacePressed = DateTime.Now;
             _callback = callback;
         }
@@ -93,6 +100,7 @@ namespace ZbllDemo
                 // toggle showing the algorithm
                 AlgLabel.Visible = !AlgLabel.Visible;
                 NumberLabel.Visible = !NumberLabel.Visible;
+                HelpLabel.Text = AlgLabel.Visible ? helpLabels[1] : helpLabels[0];
             }
             
         }

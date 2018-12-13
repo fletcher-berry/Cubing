@@ -11,6 +11,8 @@ namespace ZbllDemo.SetParsing
     {
         public static List<int> Parse(string setStr, Dictionary<string, List<int>> nameMap, List<CustomSubset> customSubsets, int max)
         {
+            if (setStr.Trim().Length == 0)
+                throw new SetParseException("No input provided.  Please enter a subset in the 'Algs' box");
             var currStr = setStr.Trim();
             List<int> algNumbers = new List<int>();
             Operator lastOperator = Operator.Union;

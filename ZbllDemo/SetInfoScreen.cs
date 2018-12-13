@@ -24,7 +24,7 @@ namespace ZbllDemo
         const int PixelsBetweenControls = 135;
 
 
-        public SetInfoScreen(AlgSet set, string rangeList, Dictionary<string, List<int>> nameMap, string setName = null)
+        public SetInfoScreen(AlgSet set, string rangeList, Dictionary<string, List<int>> nameMap, List<CustomSubset> customSubsets = null, string setName = null)
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -37,7 +37,7 @@ namespace ZbllDemo
                 NameLabel.Visible = true;
             }
 
-            List<int> posNums = SetParser.Parse(rangeList, nameMap, new List<CustomSubset>(), Info.GetNumPositionsInSet(set));
+            List<int> posNums = SetParser.Parse(rangeList, nameMap, customSubsets?? new List<CustomSubset>(), Info.GetNumPositionsInSet(set));
             Cubes = posNums.ConvertAll(num =>
             {
                 var cube = Info.GetCube(set);

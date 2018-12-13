@@ -434,8 +434,11 @@ namespace ZbllDemo
             var nameMap = XmlSubsetFile.GetNameMap(Set);
             try
             {
-                SubsetTools.ValidateAlgListInput(RangeBox.Text, nameMap, Info.GetNumPositionsInSet(Set));
-                var screen = new SetInfoScreen(Set, RangeBox.Text, nameMap);
+                SubsetTools.ValidateAlgListInput(RangeBox.Text, nameMap, Info.GetNumPositionsInSet(Set), CustomSubsetFile.GetSubsets(Set));
+
+                // translate custom subset names into their alg lists
+
+                var screen = new SetInfoScreen(Set, RangeBox.Text, nameMap, CustomSubsetFile.GetSubsets(Set));
                 screen.Show();
             }
             catch(ArgumentException ex)
