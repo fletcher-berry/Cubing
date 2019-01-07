@@ -18,6 +18,8 @@ namespace Cubing
         {
         }
 
+        public ZbllCube(LastLayerCubeStickers stickers) : base(stickers) { }
+
         /// <summary>
         /// Sets up a ZBLL case on this cube
         /// </summary>

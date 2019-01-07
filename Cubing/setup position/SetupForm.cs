@@ -162,7 +162,8 @@ namespace Cubing.ConstructPosition
                 MessageBox.Show("Not a valid ZBLL position.", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            int posNum = Cube.GetPosNum();
+            var cube = new OneLookLLCube(Cube.Stickers);
+            int posNum = cube.GetPosNum();
             _callback(AlgSet.ZBLL, posNum);
             this.Close();
         }
@@ -179,7 +180,8 @@ namespace Cubing.ConstructPosition
                 MessageBox.Show("PLL not allowed", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            int posNum = Cube.GetPosNum();
+            var cube = new OneLookLLCube(Cube.Stickers);
+            int posNum = cube.GetPosNum();
             _callback(AlgSet.OneLookLL, posNum);
             this.Close();
         }
@@ -196,11 +198,36 @@ namespace Cubing.ConstructPosition
                 MessageBox.Show("Not a valid ELLCP position", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            int posNum = Cube.GetPosNum();
+            var cube = new OneLookLLCube(Cube.Stickers);
+            int posNum = cube.GetPosNum();
             _callback(AlgSet.ELLCP, posNum - 3776);
             this.Close();
         }
 
-        // still need to implement the buttons for the other algorithm sets
+        private void SetUpOllcpButton_Click(object sender, EventArgs e)
+        {
+            if (!Cube.IsOllcp())
+            {
+                MessageBox.Show("Not a valid OLLCP position", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var cube = new OllcpCube(Cube.Stickers);
+            int posNum = cube.GetPosNum();
+            _callback(AlgSet.OLLCP, posNum);
+            this.Close();
+        }
+
+        private void SetUpOllButton_Click(object sender, EventArgs e)
+        {
+            if (!Cube.IsOll())
+            {
+                MessageBox.Show("Not a valid OLL position", "error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var cube = new OllCube(Cube.Stickers);
+            int posNum = cube.GetPosNum();
+            _callback(AlgSet.OLL, posNum);
+            this.Close();
+        }
     }
 }

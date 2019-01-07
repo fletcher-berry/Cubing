@@ -27,6 +27,8 @@ namespace Cubing
             FU = BU = LU = RU = RUF = RUB = LUB = LUF = FUL = BUL = FUR = BUR = CubeColor.None;
         }
 
+        public OllCube(LastLayerCubeStickers stickers) : base(stickers) { }
+
         /// <summary>
         /// Gets the number of possible OLL positions on this cube
         /// </summary>
@@ -155,6 +157,8 @@ namespace Cubing
                     return 55;
                 if (eoNum == 6)
                     return 56;
+                else
+                    return eoNum;
             }
 
 
@@ -246,13 +250,13 @@ namespace Cubing
             }
             else if(coNum == 7)
             {
-                while (!((LU != CubeColor.Yellow && BU != CubeColor.Yellow) || (FU != CubeColor.Yellow && BU != CubeColor.Yellow)))
+                while (!((LU == CubeColor.Yellow && BU == CubeColor.Yellow) || (FU == CubeColor.Yellow && BU == CubeColor.Yellow)))
                 {
+                    U();
+                    numAufs++;
                     if (numAufs > 4)
                         throw new InvalidOperationException("coding error.");
                 }
-                U();
-                numAufs++;
             }
             return numAufs;
 

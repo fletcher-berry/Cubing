@@ -24,6 +24,8 @@ namespace Cubing
             DF = DRF = DR = DRB = DB = DLB = DL = DLF = Dcenter = CubeColor.White;
         }
 
+        public FullCube(LastLayerCubeStickers stickers) : base(stickers) { }
+
         /// <summary>
         /// Solve this cube
         /// </summary>

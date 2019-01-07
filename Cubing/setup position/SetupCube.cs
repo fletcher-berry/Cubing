@@ -19,10 +19,8 @@ namespace Cubing.ConstructPosition
     /// To define orientation of the pieces, user clicks on a sticker to color it yellow.
     /// To define permutation of the pieces, user clickes on a sticker, then uses the keyboard to choose a color for the sticker.
     /// Corner permutation must be defined before edge permuatation.
-    /// 
-    /// Currently only supports creating a ZBLL cube.
     /// </remarks>
-    public class SetupCube : OneLookLLCube
+    public class SetupCube 
     {
         // The corners and edges are stored as circular linked lists.  The idea is that if all but one color is known, it can be determined.
         // The position of the unknown color can be arbitrary.
@@ -64,6 +62,37 @@ namespace Cubing.ConstructPosition
 
         public double SizeRatio { get; }
 
+        /// <summary>
+        /// Gets the colors of the stickers of the cube.
+        /// </summary>
+        public LastLayerCubeStickers Stickers { get
+            {
+                return new LastLayerCubeStickers
+                {
+                    URF = URFList.Head.Value,
+                    RUF = URFList.Head.Right.Value,
+                    FUR = URFList.Head.Left.Value,
+                    URB = URBList.Head.Value,
+                    BUR = URBList.Head.Right.Value,
+                    RUB = URBList.Head.Left.Value,
+                    ULB = ULBList.Head.Value,
+                    LUB = ULBList.Head.Right.Value,
+                    BUL = ULBList.Head.Left.Value,
+                    ULF = ULFList.Head.Value,
+                    FUL = ULFList.Head.Right.Value,
+                    LUF = ULFList.Head.Left.Value,
+
+                    UR = URList.Head.Value,
+                    RU = URList.Head.Right.Value,
+                    UL = ULList.Head.Value,
+                    LU = ULList.Head.Right.Value,
+                    UF = UFList.Head.Value,
+                    FU = UFList.Head.Right.Value,
+                    UB = UBList.Head.Value,
+                    BU = UBList.Head.Right.Value,
+                };
+            } }
+
         
         /// <summary>
         /// Creates a new instance of SetupCube with no last layer pieces colored (except the center)
@@ -84,12 +113,8 @@ namespace Cubing.ConstructPosition
             _edgeColors = new List<CubeColor> { CubeColor.Red, CubeColor.Green, CubeColor.Orange, CubeColor.Blue };
             _actions = new Stack<Action>();
 
-            UF = FU = UB = BU = UR = RU = UL = LU = CubeColor.None;
-            UpdatePieces();
             State = SetupState.Orienatation;
-
             SizeRatio = sizeRatio;
-
         }
 
         /// <summary>
@@ -97,10 +122,10 @@ namespace Cubing.ConstructPosition
         /// </summary>
         /// <param name="e"></param>
         /// <param name="sizeRatio">the rrelative size of the cube</param>
-        public override void Paint(PaintEventArgs e, double sizeRatio)
+        public void Paint(PaintEventArgs e, double sizeRatio)
         {
-            UpdatePieces();
-            Paint2D(e.Graphics, sizeRatio, 0, 0, 18);
+            var cube = new OneLookLLCube(Stickers);
+            cube.Paint2D(e.Graphics, sizeRatio, 0, 0, 18);
         }
 
         // During orientation phase, user clicks a sticker to color it yellow.  During permutation phase, user clicks a sticker to select it
@@ -531,54 +556,12 @@ namespace Cubing.ConstructPosition
 
         private bool EdgesAreOriented()
         {
-            return (UF == CubeColor.Yellow && UB == CubeColor.Yellow && UR == CubeColor.Yellow && UL == CubeColor.Yellow);
+            return Stickers.UF == CubeColor.Yellow && Stickers.UB == CubeColor.Yellow && Stickers.UR == CubeColor.Yellow && Stickers.UL == CubeColor.Yellow;
         }
 
         private bool CornersAreOriented()
         {
-            return (URF == CubeColor.Yellow && ULF == CubeColor.Yellow && URB == CubeColor.Yellow && ULB == CubeColor.Yellow);
+            return Stickers.URF == CubeColor.Yellow && Stickers.ULF == CubeColor.Yellow && Stickers.URB == CubeColor.Yellow && Stickers.ULB == CubeColor.Yellow;
         }
-
-        /// <summary>
-        /// Set the colors of the encapsulated OneLookLL cube based on the circular linked list representation
-        /// </summary>
-        public void UpdatePieces()
-        {
-            URF = URFList.Head.Value;
-            RUF = URFList.Head.Right.Value;
-            FUR = URFList.Head.Left.Value;
-            URB = URBList.Head.Value;
-            BUR = URBList.Head.Right.Value;
-            RUB = URBList.Head.Left.Value;
-            ULB = ULBList.Head.Value;
-            LUB = ULBList.Head.Right.Value;
-            BUL = ULBList.Head.Left.Value;
-            ULF = ULFList.Head.Value;
-            FUL = ULFList.Head.Right.Value;
-            LUF = ULFList.Head.Left.Value;
-
-            UR = URList.Head.Value;
-            RU = URList.Head.Right.Value;
-            UL = ULList.Head.Value;
-            LU = ULList.Head.Right.Value;
-            UF = UFList.Head.Value;
-            FU = UFList.Head.Right.Value;
-            UB = UBList.Head.Value;
-            BU = UBList.Head.Right.Value;
-        }
-
-        public override int GetNumPositions()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SetUpPosition(int posNum)
-        {
-            throw new NotImplementedException();
-        }
-
-        
     }
-
-
 }

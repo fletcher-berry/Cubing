@@ -18,6 +18,8 @@ namespace Cubing
         {
         }
 
+        public OneLookLLCube(LastLayerCubeStickers stickers) : base(stickers) { }
+
         /// <summary>
         /// Gets the number of possible 1LLL positions on this cube
         /// </summary>

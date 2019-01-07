@@ -28,6 +28,8 @@ namespace Cubing
             FU = BU = LU = RU = CubeColor.None;
         }
 
+        public OllcpCube(LastLayerCubeStickers stickers) : base(stickers) { }
+
         /// <summary>
         /// Gets the number of possible OLLCP positions on this cube
         /// </summary>

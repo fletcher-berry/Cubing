@@ -19,6 +19,8 @@ namespace Cubing
             
         }
 
+        public EllcpCube(LastLayerCubeStickers stickers) : base(stickers) { }
+
         /// <summary>
         /// Gets the number of possible ELLCP positions on this cube
         /// </summary>

@@ -1,4 +1,4 @@
-﻿namespace ZbllDemo
+﻿namespace Cubing
 {
     partial class DefaultRunnerScreen
     {

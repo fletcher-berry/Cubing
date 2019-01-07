@@ -128,6 +128,7 @@
             this.SetUpOllButton.TabIndex = 7;
             this.SetUpOllButton.Text = "Set Up OLL";
             this.SetUpOllButton.UseVisualStyleBackColor = true;
+            this.SetUpOllButton.Click += new System.EventHandler(this.SetUpOllButton_Click);
             // 
             // SetUpOllcpButton
             // 
@@ -138,6 +139,7 @@
             this.SetUpOllcpButton.TabIndex = 8;
             this.SetUpOllcpButton.Text = "Set Up OLLCP";
             this.SetUpOllcpButton.UseVisualStyleBackColor = true;
+            this.SetUpOllcpButton.Click += new System.EventHandler(this.SetUpOllcpButton_Click);
             // 
             // SetUpZbllButton
             // 

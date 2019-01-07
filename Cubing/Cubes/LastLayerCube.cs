@@ -13,6 +13,30 @@ namespace Cubing
     /// </summary>
     public abstract class LastLayerCube : AbstractCube3x3
     {
+        public LastLayerCube(LastLayerCubeStickers stickers)
+        {
+            UF = stickers.UF;
+            URF = stickers.URF;
+            UR = stickers.UR;
+            URB = stickers.URB;
+            UB = stickers.UB;
+            ULB = stickers.ULB;
+            UL = stickers.UL;
+            ULF = stickers.ULF;
+            RU = stickers.RU;
+            RUB = stickers.RUB;
+            BUR = stickers.BUR;
+            BU = stickers.BU;
+            BUL = stickers.BUL;
+            LUB = stickers.LUB;
+            LU = stickers.LU;
+            LUF = stickers.LUF;
+            FUL = stickers.FUL;
+            FU = stickers.FU;
+            FUR = stickers.FUR;
+            RUF = stickers.RUF;
+            Ucenter = CubeColor.Yellow;
+    }
         
         public LastLayerCube()
         {
