@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cubing", "Cubing\Cubing.csproj", "{B793CB8B-E15E-464D-BB3E-65B8F4E7FBF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZbllDemo", "ZbllDemo\ZbllDemo.csproj", "{06EFD1D9-B498-4156-9272-5BC07AA0A88B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmTrainer", "AlgorithmTrainer\AlgorithmTrainer.csproj", "{06EFD1D9-B498-4156-9272-5BC07AA0A88B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CubingTests", "CubingTests\CubingTests.csproj", "{D1E3BF62-503E-48F4-987C-A83E58612057}"
 EndProject
@@ -72,5 +72,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1CE99126-E9B3-4128-9FA6-E0FAD246FC9C}
 	EndGlobalSection
 EndGlobal
