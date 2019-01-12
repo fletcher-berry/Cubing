@@ -78,7 +78,7 @@ namespace Cubing
 
         }
 
-        private Algorithm(List<Move> moves)
+        protected Algorithm(List<Move> moves)
         {
             if (moves.Count > MaxMoves)
                 throw new OverflowException("Too many moves in the algorithm");
@@ -142,31 +142,6 @@ namespace Cubing
             arr[k] = Move.EndMoveCode;
             return arr; 
 
-        }
-
-
-
-        // For alg converter
-        public Algorithm GetInverse()
-        {
-            var inverseMoves = Moves.ConvertAll(x => x.GetInverse());
-            inverseMoves.Reverse();
-            return new Algorithm(inverseMoves);
-        }
-
-        public Algorithm GetTransform(string transform)
-        {
-            return new Algorithm(Moves.ConvertAll(x => x.GetTransform(transform)));
-        }
-
-        public Algorithm GetRLMirror()
-        {
-            return new Algorithm(Moves.ConvertAll(x => x.GetRLMirror()));
-        }
-
-        public Algorithm GetFBMirror()
-        {
-            return new Algorithm(Moves.ConvertAll(x => x.GetFBMirror()));
         }
     }
 }
