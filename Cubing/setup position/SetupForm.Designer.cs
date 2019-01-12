@@ -204,7 +204,7 @@
             this.Controls.Add(this.InfoLabel);
             this.Controls.Add(this.CubeBox);
             this.Name = "SetupForm";
-            this.Text = "Form1";
+            this.Text = "Setup Position";
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.CubeBox)).EndInit();
             this.ResumeLayout(false);

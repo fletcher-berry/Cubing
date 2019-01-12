@@ -441,7 +441,7 @@
             this.Controls.Add(this.SampleCubeView);
             this.Location = new System.Drawing.Point(150, 100);
             this.Name = "MainScreen";
-            this.Text = "Form1";
+            this.Text = "Algorithm Trainer";
             ((System.ComponentModel.ISupportInitialize)(this.SampleCubeView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

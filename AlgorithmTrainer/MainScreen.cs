@@ -10,13 +10,14 @@ using System.Windows.Forms;
 using Cubing;
 using Cubing.ConstructPosition;
 using AlgorithmTrainer.SetParsing;
+using System.Xml;
 
 namespace AlgorithmTrainer
 {
     public partial class MainScreen : Form
     {
         AlgSet Set;     // the current algorithm set 
-        ICube Cube;     // the current cube on teh screen
+        ICube Cube;     // the current cube on the screen
         int PosNum;     // the current position number on the screen
         SubsetFile SubsetFile;  
         XmlSubsetFile XmlSubsetFile;
@@ -33,6 +34,8 @@ namespace AlgorithmTrainer
 
         public MainScreen()
         {
+            AssertXmlFilesExist();
+            AssertAlgFilesExist();
             SubsetFile = new SubsetFile(subsetFilePath);
             XmlSubsetFile = new XmlSubsetFile("subsets.xml");
             CustomSubsetFile = new CustomSubsetFile("customSubsets.xml");
@@ -51,6 +54,46 @@ namespace AlgorithmTrainer
             Set = AlgSet.ZBLL;
             Cube = Info.GetCube(Set);
             PosNum = -1;
+        }
+
+        private void AssertXmlFilesExist()
+        {
+            try
+            {
+                var doc = new XmlDocument();
+                doc.Load("subsets.xml");
+                doc.Load("customSubsets.xml");
+                doc.Load("recentSubsets.xml");
+            }
+            catch(Exception e)
+            {
+                MessageBox.Show(@"Necessary files are missing or corrupted.
+Please make sure 'subsets.xml', 'customSubsets.xml', and 'recentsubsets.xml' are in the working directory.
+You can download them from github: https://github.com/fletcher-berry/Cubing.", "missing files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
+        }
+
+        private void AssertAlgFilesExist()
+        {
+            try
+            {
+                foreach (var set in Enum.GetValues(typeof(AlgSet)))
+                {
+                    if (set.Equals(AlgSet.All))
+                        continue;
+                    var file = new AlgFile(Info.GetAlgFileName((AlgSet)set), AlgFileMode.Open, AlgFileAccess.Read);
+                    file.Close();
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(@"Algorithm files are missing.
+Please make sure 'eg.alg', 'ellcp.alg', 'oll.alg', 'ollcp.alg', 'oneLookLL.alg', 'vls.alg' and 'zbll.alg' are in the working directory.
+You can download them from github: https://github.com/fletcher-berry/Cubing.", "missing files", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                Environment.Exit(0);
+            }
+
         }
 
         // paint the current cube
@@ -100,6 +143,7 @@ namespace AlgorithmTrainer
                 List<int> algs = GetListFromAlgSet(Set, RangeBox.Text);
                 algs = algs.Distinct().ToList();
                 var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new RandomAlgGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
+                screen.Text = Set.ToString() + " algs";
                 screen.KeyPreview = true;
                 screen.Show();
                 this.Hide();
@@ -123,6 +167,7 @@ namespace AlgorithmTrainer
             List<int> algs = GetListFromAlgSet(Set, RangeBox.Text);
             algs = algs.Distinct().ToList();
             var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new RandomFixedGenerator(algs, numCases), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
+            screen.Text = Set.ToString() + " algs";
             screen.KeyPreview = true;
             screen.Show();
             this.Hide();
@@ -138,6 +183,7 @@ namespace AlgorithmTrainer
                 algs = algs.Distinct().ToList();
                 //var screen = new RunnerScreen(new AlgRunner(new ZbllCube(CubeSize), new SingleCycleGenerator(algs), new AlgsFromFile(new AlgFile("zbll.alg", AlgFileMode.Open, AlgFileAccess.Read))));
                 var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new SingleCycleGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
+                screen.Text = Set.ToString() + " algs";
                 screen.KeyPreview = true;
                 screen.Show();
                 this.Hide();
@@ -174,6 +220,7 @@ namespace AlgorithmTrainer
                 
                 //var screen = new RunnerScreen(new AlgRunner(new ZbllCube(CubeSize), new SingleCycleGenerator(algs), new AlgsFromFile(new AlgFile("zbll.alg", AlgFileMode.Open, AlgFileAccess.Read))));
                 var screen = new DefaultRunnerScreen(new AlgRunner(Info.GetCube(Set), new SequentialGenerator(algs), new AlgsFromFileStored(Info.GetAlgFileName(Set))), RunnerScreenCallback);
+                screen.Text = Set.ToString() + " algs";
                 screen.KeyPreview = true;
                 screen.Show();
                 this.Hide();
@@ -435,10 +482,8 @@ namespace AlgorithmTrainer
             try
             {
                 SubsetTools.ValidateAlgListInput(RangeBox.Text, nameMap, Info.GetNumPositionsInSet(Set), CustomSubsetFile.GetSubsets(Set));
-
-                // translate custom subset names into their alg lists
-
                 var screen = new SetInfoScreen(Set, RangeBox.Text, nameMap, CustomSubsetFile.GetSubsets(Set));
+                screen.Text = RangeBox.Text;
                 screen.Show();
             }
             catch(ArgumentException ex)

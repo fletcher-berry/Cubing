@@ -107,7 +107,7 @@
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.AddButton);
             this.Name = "AddSubsetScreen";
-            this.Text = "AddSubsetScreen";
+            this.Text = "Add Custom Subset";
             this.ResumeLayout(false);
             this.PerformLayout();
 
